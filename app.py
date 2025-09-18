@@ -39,12 +39,26 @@ def author():
 @app.route("/image")
 def image ():
     path = url_for("static", filename="cru.jpg")
+    css_path = url_for("static", filename="lab1.css")
     return '''
     <!doctype html>
     <html>
+        <head>
+            <title>Цыпленок</title>
+            <link rel="stylesheet" href="''' + css_path + '''">
+        </head>
         <body>
-            <h1>Цыпленок</h1>
-            <img src="''' + path + '''">
+            <div class="container">
+                <div class="image-page">
+                    <h1 class="image-title">Цыпленок</h1>
+                    <img src="''' + path + '''" class="styled-image" alt="Цыпленок">
+                    <div class="navigation">
+                        <a href="/web" class="nav-link">На главную</a>
+                        <a href="/author" class="nav-link">Об авторе</a>
+                        <a href="/counter" class="nav-link">Счетчик</a>
+                    </div>
+                </div>
+            </div>
         </body>
     </html>
     '''
