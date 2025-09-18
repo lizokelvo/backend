@@ -81,9 +81,17 @@ def counter():
                 Дата и время: ''' + str(time) + '''<br>
                 Запрошенный адрес: ''' + url + '''<br>
                 Ваш IP-адрес: ''' + client_ip + '''<br>
+                <a href="/counter/clear"> counter clear </a>
             </body>
         </html>
         '''
+
+@app.route('/counter/clear')
+def clear_counter():
+    global count
+    count = 0
+    return redirect('/counter')
+
 @app.route("/info")
 def info():
     return redirect("/author")
