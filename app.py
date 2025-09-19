@@ -58,6 +58,130 @@ def not_found(err):
 </body>
 </html>''', 404
 
+@app.errorhandler(500)
+def internal_server_error(err):
+    css_path = url_for("static", filename="lab1.css")
+    
+    return '''<!doctype html>
+<html>
+<head>
+    <title>500 - Внутренняя ошибка сервера</title>
+    <link rel="stylesheet" href="''' + css_path + '''">
+    <style>
+        .server-error {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .error-code {
+            font-size: 6em;
+            font-weight: bold;
+            color: #ff4757;
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+            margin: 0;
+            line-height: 1;
+        }
+        
+        .error-message {
+            font-size: 2em;
+            color: #f8f9fa;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .error-description {
+            font-size: 1.2em;
+            color: #b2ebf2;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            text-align: left;
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .tech-info {
+            background: rgba(255,0,0,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 600px;
+            text-align: left;
+        }
+        
+        .solution-list {
+            text-align: left;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .fire-emoji {
+            font-size: 4em;
+            animation: flicker 1.5s infinite alternate;
+        }
+        
+        @keyframes flicker {
+            0% {opacity: 1;}
+            50% {opacity: 0.7;}
+            100% {opacity: 1;}
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content-card server-error">
+            
+            <div class="error-code">500</div>
+            
+            <div class="error-message">Произошла внутренняя ошибка сервера</div>
+            
+            <div class="error-description">
+                <strong>Что случилось?</strong><br>
+                На сервере произошла непредвиденная ошибка. Это не ваша вина - наши разработчики уже бегут с огнетушителями!
+            </div>
+            
+            <div class="tech-info">
+                <strong>Техническая информация:</strong>
+                <ul>
+                    <li>Ошибка: Internal Server Error</li>
+                    <li>Код: 500</li>
+                    <li>Время: ''' + str(datetime.datetime.now()) + '''</li>
+                    <li>Сервер: Flask Web Server</li>
+                </ul>
+            </div>
+            
+            <div style="margin: 30px auto; max-width: 500px;">
+                <h3>Что можно сделать?</h3>
+                <div class="solution-list">
+                    <p>Обновите страницу через несколько минут</p>
+                    <p>Вернитесь на главную страницу</p>
+                    <p>Сообщите администратору об ошибке</p>
+                    <p>Не паникуйте - ошибки бывают у всех!</p>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <a href="/" class="nav-link">На главную</a>
+                <a href="javascript:location.reload()" class="nav-link">Обновить страницу</a>
+                <a href="/lab1" class="nav-link">К лабораторным</a>
+            </div>
+            
+            <div style="margin-top: 30px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                <small style="color: #888;">
+                    Если ошибка повторяется, пожалуйста, свяжитесь с технической поддержкой
+                </small>
+            </div>
+        </div>
+    </div>
+</body>
+</html>''', 500
+
+@app.route('/generate-error')
+def generate_error():
+    result = 1 / 0
+    return str(result)
+
 @app.route('/400')
 def bad_request():
     return '''<!doctype html>
