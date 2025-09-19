@@ -413,16 +413,35 @@ def image ():
                 <div class="image-page">
                     <h1 class="image-title">Цыпленок</h1>
                     <img src="''' + path + '''" class="styled-image" alt="Цыпленок">
+                    <p class="text-center text-info">Прекрасный цыпленок с красивой стилизацией</p>
                     <div class="navigation">
-                        <a href="/lab1/web" class="nav-link">На главную</a>
-                        <a href="/lab1/author" class="nav-link">Об авторе</a>
+                        <a href="/lab1/web" class="nav-link">Главная</a>
+                        <a href="/index" class="nav-link">Главная сайта</a>
                         <a href="/lab1/counter" class="nav-link">Счетчик</a>
                     </div>
                 </div>
             </div>
         </body>
     </html>
-    '''
+    ''', 200, headers
+headers = {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Content-Language': 'ru',  
+        
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
+        
+        'X-Student-Info': 'Voroshilova-Elizaveta-FBI-34',
+        'X-University': 'Novosibirsk-State-Technical-University',
+        'X-Laboratory-Work': '1',
+        'X-Image-Type': 'Animal-Photo',
+        'X-Server-Technology': 'Python-Flask',
+        'X-Generated-At': datetime.datetime.now().isoformat(),
+        
+        'X-XSS-Protection': '1; mode=block',
+        'X-Powered-By': 'Flask Educational Project'
+    }
+
 count = 0
 
 @app.route('/lab1/counter')
