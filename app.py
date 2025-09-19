@@ -4,7 +4,59 @@ app = Flask(__name__)
 
 @app.errorhandler(404)
 def not_found(err):
-    return "Нет такой страницы", 404
+    css_path = url_for("static", filename="lab1.css")
+    return '''<!doctype html>
+<html>
+<head>
+    <title>404 - Страница не найдена</title>
+    <link rel="stylesheet" href="''' + css_path + '''">
+    <style>
+        .error-emoji {
+            font-size: 6em;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-30px);}
+            60% {transform: translateY(-15px);}
+        }
+        
+        .error-funny {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 400px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content-card" style="text-align: center;">
+            <div class="error-emoji">🔍❌🌌</div>
+            
+            <h1 style="color: #ff6b6b; font-size: 3em;">404</h1>
+            <h2>Страница пропала в цифровой пучине!</h2>
+                        
+            <p>Возможные причины:</p>
+            <ul style="text-align: left; max-width: 400px; margin: 0 auto;">
+                <li> Страница в разработке</li>
+                <li> Неправильная ссылка</li>
+                <li> Страница переехала в другое измерение</li>
+                <li> Временные технические неполадки</li>
+            </ul>
+            
+            <div class="navigation" style="margin-top: 30px;">
+                <a href="/" class="nav-link"> На главную</a>
+                <a href="/lab1" class="nav-link">К лабораторным</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>''', 404
 
 @app.route('/400')
 def bad_request():
