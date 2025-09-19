@@ -6,6 +6,147 @@ app = Flask(__name__)
 def not_found(err):
     return "Нет такой страницы", 404
 
+@app.route('/400')
+def bad_request():
+    return '''<!doctype html>
+<html>
+<head>
+    <title>400 Bad Request</title>
+    <link rel="stylesheet" href="''' + url_for('static', filename='lab1.css') + '''">
+</head>
+<body>
+    <div class="container">
+        <div class="content-card">
+            <h1 class="text-danger">400 Bad Request</h1>
+            <p>Сервер не может обработать запрос из-за некорректного синтаксиса.</p>
+            <p>Проверьте правильность вашего запроса.</p>
+            <div class="navigation">
+                <a href="/" class="nav-link">На главную</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>''', 400
+
+@app.route('/401')
+def unauthorized():
+    return '''<!doctype html>
+<html>
+<head>
+    <title>401 Unauthorized</title>
+    <link rel="stylesheet" href="''' + url_for('static', filename='lab1.css') + '''">
+</head>
+<body>
+    <div class="container">
+        <div class="content-card">
+            <h1 class="text-danger">401 Unauthorized</h1>
+            <p>Требуется аутентификация для доступа к ресурсу.</p>
+            <p>Пожалуйста, авторизуйтесь.</p>
+            <div class="navigation">
+                <a href="/" class="nav-link">На главную</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>''', 401
+
+@app.route('/402')
+def payment_required():
+    return '''<!doctype html>
+<html>
+<head>
+    <title>402 Payment Required</title>
+    <link rel="stylesheet" href="''' + url_for('static', filename='lab1.css') + '''">
+</head>
+<body>
+    <div class="container">
+        <div class="content-card">
+            <h1 class="text-danger">402 Payment Required</h1>
+            <p>Требуется оплата для доступа к ресурсу.</p>
+            <p>Этот код зарезервирован для будущего использования.</p>
+            <div class="navigation">
+                <a href="/" class="nav-link">На главную</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>''', 402
+
+@app.route('/403')
+def forbidden():
+    return '''<!doctype html>
+<html>
+<head>
+    <title>403 Forbidden</title>
+    <link rel="stylesheet" href="''' + url_for('static', filename='lab1.css') + '''">
+</head>
+<body>
+    <div class="container">
+        <div class="content-card">
+            <h1 class="text-danger">403 Forbidden</h1>
+            <p>Доступ к запрошенному ресурсу запрещен.</p>
+            <p>У вас недостаточно прав для просмотра этой страницы.</p>
+            <div class="navigation">
+                <a href="/" class="nav-link">На главную</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>''', 403
+
+@app.route('/405')
+def method_not_allowed():
+    return '''<!doctype html>
+<html>
+<head>
+    <title>405 Method Not Allowed</title>
+    <link rel="stylesheet" href="''' + url_for('static', filename='lab1.css') + '''">
+</head>
+<body>
+    <div class="container">
+        <div class="content-card">
+            <h1 class="text-danger">405 Method Not Allowed</h1>
+            <p>Метод запроса не поддерживается для данного ресурса.</p>
+            <p>Проверьте используемый HTTP метод (GET, POST, etc.).</p>
+            <div class="navigation">
+                <a href="/" class="nav-link">На главную</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>''', 405
+
+@app.route('/errors')
+def errors_list():
+    css_path = url_for("static", filename="lab1.css")
+    return '''<!doctype html>
+<html>
+<head>
+    <title>Список HTTP ошибок</title>
+    <link rel="stylesheet" href="''' + css_path + '''">
+</head>
+<body>
+    <div class="container">
+        <div class="content-card">
+            <h1>📋 Список HTTP ошибок для тестирования</h1>
+            
+            <div class="navigation">
+                <a href="/400" class="nav-link" style="background: linear-gradient(45deg, #ff6b6b, #c23616);">400 Bad Request</a>
+                <a href="/401" class="nav-link" style="background: linear-gradient(45deg, #e84118, #c23616);">401 Unauthorized</a>
+                <a href="/402" class="nav-link" style="background: linear-gradient(45deg, #fbc531, #e1b12c);">402 Payment Required</a>
+                <a href="/403" class="nav-link" style="background: linear-gradient(45deg, #ff4757, #c23616);">403 Forbidden</a>
+                <a href="/405" class="nav-link" style="background: linear-gradient(45deg, #3742fa, #2f3542);">405 Method Not Allowed</a>
+                <a href="/418" class="nav-link" style="background: linear-gradient(45deg, #6f4e37, #8B4513);">418 I'm a teapot</a>
+            </div>
+                        
+            <div class="navigation">
+                <a href="/" class="nav-link">На главную</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>'''
+
 @app.route("/")
 @app.route("/index")
 def index():
