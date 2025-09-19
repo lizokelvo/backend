@@ -39,10 +39,6 @@ def index():
             </body>
         </html>"""
 
-@app.route("/lab1")
-def lab1_index():
-    return redirect("/lab1/web")
-
 @app.route("/lab1/web")
 def web():
     css_path = url_for("static", filename="lab1.css")
@@ -155,3 +151,46 @@ def created():
     </body>
 </html>
 ''', 201
+
+@app.route("/lab1")
+def lab1():
+    css_path = url_for("static", filename="lab1.css")
+    return '''<!doctype html>
+<html>
+<head>
+    <title>Лабораторная 1</title>
+    <link rel="stylesheet" href="''' + css_path + '''">
+</head>
+<body>
+    <div class="container">
+        <div class="content-card">
+            <h1>Лабораторная работа 1</h1>
+            
+            <div class="text-content" style="text-align: left; line-height: 1.8; font-size: 1.1em;">
+                <p>
+                    Flask — фреймворк для создания веб-приложений на языке программирования Python, 
+                    использующий набор инструментов Werkzeug, а также шаблонизатор Jinja2. 
+                    Относится к категории так называемых микрофреймворков — минималистичных каркасов 
+                    веб-приложений, сознательно предоставляющих лишь самые базовые возможности.
+                </p>
+                
+                <p style="margin-top: 20px; font-style: italic; color: #b2ebf2;">
+                    Flask позволяет быстро создавать веб-приложения с минимальными настройками 
+                    и provides flexibility for developers.
+                </p>
+            </div>
+            
+            <div class="navigation" style="margin-top: 30px;">
+                <a href="/" class="nav-link">← На главную сайта</a>
+                <a href="/lab1/web" class="nav-link">К лабораторной 1 →</a>
+            </div>
+            
+            <div class="navigation" style="margin-top: 20px;">
+                <a href="/lab1/author" class="nav-link">Автор</a>
+                <a href="/lab1/image" class="nav-link">Изображение</a>
+                <a href="/lab1/counter" class="nav-link">Счетчик</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>'''
