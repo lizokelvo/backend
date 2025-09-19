@@ -7,13 +7,61 @@ def not_found(err):
     return "Нет такой страницы", 404
 
 @app.route("/")
-@app.route("/lab1/web")
-def web():
+@app.route("/index")
+def index():
+    css_path = url_for("static", filename="lab1.css")
     return """<!doctype html>
         <html>
+            <head>
+                <title>НГТУ, ФБ, Лабораторные работы</title>
+                <link rel="stylesheet" href="''' + css_path + '''">
+            </head>
             <body>
-                <h1>web-сервер на flask</h1>
-                <a href="/lab1/author">author</a>
+                <div class="container">
+                    <div class="content-card">
+                        <header>
+                            <h1>НГТУ, ФБ, WEB-программирование, часть 2. Список лабораторных</h1>
+                        </header>
+                        <nav class="navigation">
+                            <a href="/lab1" class="nav-link">Первая лабораторная</a>
+                            <a href="/lab1/web" class="nav-link">Главная lab1</a>
+                            <a href="/lab1/author" class="nav-link">Автор</a>
+                            <a href="/lab1/image" class="nav-link">Изображение</a>
+                            <a href="/lab1/counter" class="nav-link">Счетчик</a>
+                        </nav>
+                        <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid rgba(255,255,255,0.2);">
+                            <p class="text-center text-info">
+                                Ворошилова Елизавета Андреевна, ФБИ-34, 3 курс, 2025 год
+                            </p>
+                        </footer>
+                    </div>
+                </div>
+            </body>
+        </html>"""
+
+@app.route("/lab1")
+def lab1_index():
+    return redirect("/lab1/web")
+
+@app.route("/lab1/web")
+def web():
+    css_path = url_for("static", filename="lab1.css")
+    return """<!doctype html>
+        <html>
+            <head>
+                <title>Главная lab1</title>
+                <link rel="stylesheet" href="""" + css_path + """">
+            </head>
+            <body>
+                <div class="container">
+                    <div class="content-card">
+                        <h1>web-сервер на flask</h1>
+                        <div class="navigation">
+                            <a href="/lab1/author" class="nav-link">Автор</a>
+                            <a href="/index" class="nav-link">Главная сайта</a>
+                        </div>
+                    </div>
+                </div>
             </body>
         </html>""", 200, {
             'X-Server': 'sample',
