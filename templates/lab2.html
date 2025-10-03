@@ -3,6 +3,170 @@
 {# номер лабораторной работы: #}
 {% block lab %}Лабораторная работа 2{% endblock %}
 
+{% block styles %}
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 80px 20px 40px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+    }
+    .container {
+        background: white;
+        padding: 50px;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    }
+    h1 {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 40px;
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 20px;
+    }
+    .lab-description {
+        background: #ecf0f1;
+        padding: 25px;
+        border-radius: 15px;
+        margin-bottom: 40px;
+        line-height: 1.6;
+        font-size: 1.1em;
+    }
+    .routes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin: 30px 0;
+    }
+    .route-card {
+        background: #f8f9fa;
+        padding: 25px;
+        border-radius: 12px;
+        border-left: 5px solid #3498db;
+        transition: transform 0.3s;
+    }
+    .route-card:hover {
+        transform: translateY(-5px);
+    }
+    .route-title {
+        font-size: 1.3em;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+    .route-path {
+        color: #7f8c8d;
+        font-family: monospace;
+        background: #ecf0f1;
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin: 10px 0;
+    }
+    .route-description {
+        color: #636e72;
+        line-height: 1.5;
+    }
+    .category {
+        margin: 40px 0 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #bdc3c7;
+        color: #2c3e50;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Лабораторная работа 2</h1>
+    
+    <div class="lab-description">
+        <p><strong>Тема:</strong> Работа с Flask: маршруты, шаблоны, обработка ошибок</p>
+        <p><strong>Студент:</strong> Ворошилова Елизавета Андреевна</p>
+        <p><strong>Группа:</strong> ФБИ-34</p>
+        <p><strong>Курс:</strong> 3</p>
+    </div>
+
+    <h2 class="category"> Работа с цветами</h2>
+    <div class="routes-grid">
+        <div class="route-card">
+            <div class="route-title">Все цветы</div>
+            <div class="route-path">/lab2/flowers/</div>
+            <div class="route-description">Просмотр списка всех цветов с количеством</div>
+            <a href="/lab2/flowers/" class="nav-link">Перейти</a>
+        </div>
+        <div class="route-card">
+            <div class="route-title">Конкретный цветок</div>
+            <div class="route-path">/lab2/flowers/&lt;id&gt;</div>
+            <div class="route-description">Просмотр отдельного цветка по ID</div>
+            <a href="/lab2/flowers/0" class="nav-link">Пример</a>
+        </div>
+        <div class="route-card">
+            <div class="route-title">Добавить цветок</div>
+            <div class="route-path">/lab2/add_flower/&lt;name&gt;</div>
+            <div class="route-description">Добавление нового цветка в список</div>
+            <a href="/lab2/add_flower/роза" class="nav-link">Пример</a>
+        </div>
+        <div class="route-card">
+            <div class="route-title">Очистить список</div>
+            <div class="route-path">/lab2/clear_flowers</div>
+            <div class="route-description">Полная очистка списка цветов</div>
+            <a href="/lab2/clear_flowers" class="nav-link">Перейти</a>
+        </div>
+    </div>
+
+    <h2 class="category"> Математика</h2>
+    <div class="routes-grid">
+        <div class="route-card">
+            <div class="route-title">Калькулятор</div>
+            <div class="route-path">/lab2/calc/&lt;a&gt;/&lt;b&gt;</div>
+            <div class="route-description">Математические операции с двумя числами</div>
+            <a href="/lab2/calc/10/5" class="nav-link">Пример</a>
+        </div>
+        <div class="route-card">
+            <div class="route-title">Калькулятор (умолчания)</div>
+            <div class="route-path">/lab2/calc/</div>
+            <div class="route-description">Калькулятор с числами 1 и 1 по умолчанию</div>
+            <a href="/lab2/calc/" class="nav-link">Перейти</a>
+        </div>
+        <div class="route-card">
+            <div class="route-title">Калькулятор (одно число)</div>
+            <div class="route-path">/lab2/calc/&lt;a&gt;</div>
+            <div class="route-description">Калькулятор с числом a и 1 по умолчанию</div>
+            <a href="/lab2/calc/15" class="nav-link">Пример</a>
+        </div>
+    </div>
+
+    <h2 class="category"> Дополнительные страницы</h2>
+    <div class="routes-grid">
+        <div class="route-card">
+            <div class="route-title">Библиотека книг</div>
+            <div class="route-path">/lab2/books</div>
+            <div class="route-description">Список книг с авторами и описаниями</div>
+            <a href="/lab2/books" class="nav-link">Перейти</a>
+        </div>
+        <div class="route-card">
+            <div class="route-title">Энциклопедия ягод</div>
+            <div class="route-path">/lab2/berries</div>
+            <div class="route-description">Каталог ягод с картинками и описаниями</div>
+            <a href="/lab2/berries" class="nav-link">Перейти</a>
+        </div>
+        <div class="route-card">
+            <div class="route-title">Пример шаблонов</div>
+            <div class="route-path">/lab2/example</div>
+            <div class="route-description">Демонстрация работы с шаблонами</div>
+            <a href="/lab2/example" class="nav-link">Перейти</a>
+        </div>
+        <div class="route-card">
+            <div class="route-title">Фильтры Jinja2</div>
+            <div class="route-path">/lab2/filters</div>
+            <div class="route-description">Пример использования фильтров в шаблонах</div>
+            <a href="/lab2/filters" class="nav-link">Перейти</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
 {# основной контент: #}
 {% block main %}
     <h1>Шаблоны</h1>
@@ -12,4 +176,4 @@
             <a href="/lab2/example">example</a>
         </li>
     </ol>
-{endblock %}
+{%endblock %}
