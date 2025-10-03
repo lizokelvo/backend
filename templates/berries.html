@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Энциклопедия ягод</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2d3436;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+        }
+        .stats {
+            background: #dfe6e9;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .stats div {
+            display: inline-block;
+            margin: 0 25px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .berries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .berry-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #e0e0e0;
+        }
+        .berry-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        .berry-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 3px solid #00b894;
+        }
+        .berry-info {
+            padding: 25px;
+        }
+        .berry-name {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #2d3436;
+            margin-bottom: 10px;
+        }
+        .berry-description {
+            color: #636e72;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .berry-details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #dfe6e9;
+        }
+        .season {
+            background: #fd79a8;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        .color {
+            background: #6c5ce7;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        .navigation {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #dfe6e9;
+        }
+        .nav-link {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+        .nav-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .total-count {
+            background: #e17055;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1> Энциклопедия ягод</h1>
+        
+        <div class="stats">
+            <div class="total-count">Всего ягод: {{ berries|length }}</div>
+            <div> Сезонные дары природы</div>
+        </div>
+
+        <div class="berries-grid">
+            {% for berry in berries %}
+            <div class="berry-card">
+                <img src="{{ url_for('static', filename=berry.image) }}" alt="{{ berry.name }}" class="berry-image">
+                    <div class="berry-name">{{ berry.name }}</div>
+                    <div class="berry-description">{{ berry.description }}</div>
+                    <div class="berry-details">
+                        <span class="season"> {{ berry.season }}</span>
+                        <span class="color"> {{ berry.color }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="navigation">
+            <a href="/lab2" class="nav-link"> К лабораторной 2</a>
+            <a href="/lab2/books" class="nav-link"> Книги</a>
+            <a href="/lab2/flowers" class="nav-link"> Цветы</a>
+            <a href="/lab2/calc" class="nav-link"> Калькулятор</a>
+        </div>
+    </div>
+</body>
+</html>
