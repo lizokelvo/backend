@@ -179,23 +179,26 @@ def generate_error():
     result = 1 / 0
     return str(result)
 
-@app.route('/400')
-def bad_request():
+@app.errorhandler(400)
+def bad_request(err):
     return '''<!doctype html>
 <html>
 <head>
-    <title>400 Bad Request</title>
-    <link rel="stylesheet" href="''' + url_for('static', filename='lab1.css') + '''">
+    <title>400 - Неверный запрос</title>
 </head>
 <body>
-    <div class="container">
-        <div class="content-card">
-            <h1 class="text-danger">400 Bad Request</h1>
-            <p>Сервер не может обработать запрос из-за некорректного синтаксиса.</p>
-            <p>Проверьте правильность вашего запроса.</p>
-            <div class="navigation">
-                <a href="/" class="nav-link">На главную</a>
-            </div>
+    <div style="text-align: center; padding: 50px;">
+        <h1 style="color: #ff6b6b; font-size: 3em;">400</h1>
+        <h2>Вы не задали имя цветка!</h2>
+        <p>Пожалуйста, укажите название цветка в URL:</p>
+        <p><code>/lab2/add_flower/роза</code></p>
+        <p><code>/lab2/add_flower/тюльпан</code></p>
+        <p><code>/lab2/add_flower/нарцисс</code></p>
+        
+        <div style="margin-top: 30px;">
+            <a href="/lab2" style="padding: 10px 20px; background: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">
+                К лабораторной 2
+            </a>
         </div>
     </div>
 </body>
@@ -664,8 +667,12 @@ def flowers(flower_id):
     else:
         return "цветок: " + flower_list[flower_id]
 
+@app.route('/lab2/add_flower/')
 @app.route('/lab2/add_flower/<name>')
-def add_flower (name):
+def add_flower(name=None):
+    if name is None:
+        abort(400)
+    
     flower_list.append(name)
     return f'''
 <!doctype html>
@@ -697,3 +704,82 @@ def example():
 def lab2():
     return render_template('lab2.html')
 
+@app.route('/lab2/filters')
+def filters():
+    phrase  = "О <b>сколько</b> <u>нам</u> <i>открытий</i> чудных..."
+    return render_template('filter.html', phrase = phrase)
+
+@app.route('/lab2/flower/<int:flower_id>')
+def flower(flower_id):
+    if flower_id >= len(flower_list) or flower_id < 0:
+        abort(404)
+    
+    flower = flower_list[flower_id]
+    return f'''
+<!doctype html>
+<html>
+<head>
+    <title>Цветок #{flower_id}</title>
+    <style>
+        body {{ font-family: Arial, sans-serif; margin: 40px; }}
+        h1 {{ color: #2c3e50; }}
+        .flower-info {{ background: #ecf0f1; padding: 20px; border-radius: 10px; }}
+        a {{ color: #3498db; text-decoration: none; margin-right: 15px; }}
+        a:hover {{ text-decoration: underline; }}
+        .nav {{ margin: 20px 0; }}
+    </style>
+</head>
+<body>
+    <h1>Цветок #{flower_id}</h1>
+    
+    <div class="flower-info">
+        <p><strong>Название:</strong> {flower}</p>
+        <p><strong>ID:</strong> {flower_id}</p>
+    </div>
+    
+    <div class="nav">
+        {"<a href='/lab2/flowers/" + str(flower_id-1) + "'>← Предыдущий цветок</a>" if flower_id > 0 else ""}
+        {"<a href='/lab2/flowers/" + str(flower_id+1) + "'>Следующий цветок →</a>" if flower_id < len(flower_list)-1 else ""}
+    </div>
+    
+    <div>
+        <a href="/lab2/flowers/"> Все цветы ({len(flower_list)})</a> |
+        <a href="/lab2/add_flower/">Добавить цветок</a> |
+        <a href="/lab2/clear_flowers"> Очистить список</a> |
+        <a href="/lab2"> К лабораторной 2</a>
+    </div>
+</body>
+</html>
+'''
+
+@app.route('/lab2/clear_flowers')
+def clear_flowers():
+    flower_list.clear()
+    return '''
+<!doctype html>
+<html>
+<head>
+    <title>Список очищен</title>
+    <style>
+        body {{ font-family: Arial, sans-serif; margin: 40px; text-align: center; }}
+        h1 {{ color: #e74c3c; }}
+        .message {{ background: #f8d7da; color: #721c24; padding: 20px; border-radius: 10px; margin: 20px 0; }}
+        a {{ color: #3498db; text-decoration: none; margin: 0 10px; padding: 10px 20px; background: #ecf0f1; border-radius: 5px; }}
+        a:hover {{ background: #bdc3c7; }}
+    </style>
+</head>
+<body>
+    <h1> Список цветов очищен</h1>
+    
+    <div class="message">
+        Все цветы были удалены из списка. Список теперь пуст.
+    </div>
+    
+    <div style="margin-top: 30px;">
+        <a href="/lab2/flowers/"> Посмотреть все цветы (0)</a>
+        <a href="/lab2/add_flower/"> Добавить первый цветок</a>
+        <a href="/lab2"> К лабораторной 2</a>
+    </div>
+</body>
+</html>
+'''
