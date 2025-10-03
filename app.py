@@ -783,3 +783,22 @@ def clear_flowers():
 </body>
 </html>
 '''
+
+@app.route('/lab2/calc/<int:a>/<int:b>')
+def calc(a, b):
+    return render_template('calc.html', a=a, b=b)
+
+@app.route('/lab2/calc/')
+def calc_default():
+    """Перенаправляет с /lab2/calc/ на /lab2/calc/1/1"""
+    return redirect('/lab2/calc/1/1')
+
+@app.route('/lab2/calc/<int:a>')
+def calc_single(a):
+    """Перенаправляет с /lab2/calc/<a> на /lab2/calc/<a>/1"""
+    return redirect(f'/lab2/calc/{a}/1')
+
+@app.route('/lab2/calc/<int:a>/<int:b>')
+def calc(a, b):
+    """Основной обработчик калькулятора с двумя числами"""
+    return render_template('calc.html', a=a, b=b)
