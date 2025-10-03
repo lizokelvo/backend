@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Библиотека книг</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+        }
+        .stats {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .stats div {
+            display: inline-block;
+            margin: 0 20px;
+            font-size: 1.1em;
+        }
+        .book-list {
+            display: grid;
+            gap: 20px;
+        }
+        .book-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .book-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        .book-author {
+            color: #7f8c8d;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        .book-details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+        .genre {
+            background: #3498db;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+        }
+        .pages {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .navigation {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+        }
+        .nav-link {
+            display: inline-block;
+            padding: 12px 25px;
+            margin: 5px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.3s;
+            font-weight: bold;
+        }
+        .nav-link:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        .total-pages {
+            background: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1> Библиотека классической литературы</h1>
+        
+        <div class="stats">
+            <div> Всего книг: <strong>{{ books|length }}</strong></div>
+            <div class="total-pages">
+                 Общее количество страниц: <strong>{{ books|sum(attribute='pages') }}</strong>
+            </div>
+            <div> Уникальных авторов: <strong>{{ books|map(attribute='author')|unique|list|length }}</strong></div>
+        </div>
+
+        <div class="book-list">
+            {% for book in books %}
+            <div class="book-card">
+                <div class="book-title">{{ book.title }}</div>
+                <div class="book-author"> {{ book.author }}</div>
+                <div class="book-details">
+                    <span class="genre">{{ book.genre }}</span>
+                    <span class="pages"> {{ book.pages }} стр.</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="navigation">
+            <a href="/lab2" class="nav-link"> К лабораторной 2</a>
+            <a href="/lab2/calc/" class="nav-link"> Калькулятор</a>
+            <a href="/lab2/flowers/" class="nav-link"> Цветы</a>
+        </div>
+    </div>
+</body>
+</html>>
