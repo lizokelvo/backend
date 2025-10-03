@@ -380,6 +380,7 @@ def index():
             
             <nav class="navigation">
                 <a href="/lab1" class="nav-link">Первая лабораторная</a>
+                <a href="/lab2" class="nav-link">Вторая лабораторная</a>
                 <a href="/lab1/web" class="nav-link">Главная lab1</a>
                 <a href="/lab1/author" class="nav-link">Автор</a>
                 <a href="/lab1/image" class="nav-link">Изображение</a>
@@ -969,3 +970,7 @@ berries = [
 def berries_list():
     """Страница со всеми ягодами"""
     return render_template('berries.html', berries=berries)
+
+@app.route('/lab2/')
+def lab2():
+    return render_template('lab2.html')
