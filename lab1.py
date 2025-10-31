@@ -28,6 +28,7 @@ def web():
             'Content-Type': 'text/plain; charset=utf-8'
         }
 
+
 @lab1.route("/lab1/author")
 def author():
     name = "Ворошилова Елизавета Андреевна"
@@ -57,6 +58,7 @@ def author():
                 </div>
             </body>
         </html>"""
+
 
 @lab1.route("/lab1/image")
 def image():
@@ -99,7 +101,9 @@ def image():
     
     return html_content, 200, headers
 
+
 count = 0
+
 
 @lab1.route('/lab1/counter')
 def counter():
