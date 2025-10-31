@@ -1,9 +1,11 @@
 from flask import Flask, url_for, redirect, abort, render_template  # type: ignore
 from lab1 import lab1
+from lab2 import lab2
 import datetime
 
 app = Flask(__name__)
 app.register_blueprint(lab1)
+app.register_blueprint(lab2)
 
 
 @app.errorhandler(404)
@@ -180,205 +182,10 @@ def internal_server_error(err):
 </html>''', 500
 
 
-@app.route('/generate-error')
-def generate_error():
-    result = 1 / 0
-    return str(result)
-
-
-@app.errorhandler(400)
-def bad_request(err):
-    return '''<!doctype html>
-<html>
-<head>
-    <title>400 - Неверный запрос</title>
-</head>
-<body>
-    <div style="text-align: center; padding: 50px;">
-        <h1 style="color: #ff6b6b; font-size: 3em;">400</h1>
-        <h2>Вы не задали имя цветка!</h2>
-        <p>Пожалуйста, укажите название цветка в URL:</p>
-        <p><code>/lab2/add_flower/роза</code></p>
-        <p><code>/lab2/add_flower/тюльпан</code></p>
-        <p><code>/lab2/add_flower/нарцисс</code></p>
-        
-        <div style="margin-top: 30px;">
-            <a href="/lab2" style="padding: 10px 20px; background: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">
-                К лабораторной 2
-            </a>
-        </div>
-    </div>
-</body>
-</html>''', 400
-
-
-@app.route('/401')
-def unauthorized():
-    return '''<!doctype html>
-<html>
-<head>
-    <title>401 Unauthorized</title>
-    <link rel="stylesheet" href="''' + url_for('static', filename='lab1.css') + '''">
-</head>
-<body>
-    <div class="container">
-        <div class="content-card">
-            <h1 class="text-danger">401 Unauthorized</h1>
-            <p>Требуется аутентификация.</p>
-            <p>Пожалуйста, авторизуйтесь.</p>
-            <div class="navigation">
-                <a href="/" class="nav-link">На главную</a>
-            </div>
-        </div>
-    </div>
-</body>
-</html>''', 401
-
-
-@app.route('/402')
-def payment_required():
-    return '''<!doctype html>
-<html>
-<head>
-    <title>402 Payment Required</title>
-    <link rel="stylesheet" href="''' + url_for('static', filename='lab1.css') + '''">
-</head>
-<body>
-    <div class="container">
-        <div class="content-card">
-            <h1 class="text-danger">402 Payment Required</h1>
-            <p>Требуется оплата для доступа к ресурсу.</p>
-            <p>Этот код зарезервирован для будущего использования.</p>
-            <div class="navigation">
-                <a href="/" class="nav-link">На главную</a>
-            </div>
-        </div>
-    </div>
-</body>
-</html>''', 402
-
-
-@app.route('/403')
-def forbidden():
-    return '''<!doctype html>
-<html>
-<head>
-    <title>403 Forbidden</title>
-    <link rel="stylesheet" href="''' + url_for('static', filename='lab1.css') + '''">
-</head>
-<body>
-    <div class="container">
-        <div class="content-card">
-            <h1 class="text-danger">403 Forbidden</h1>
-            <p>Доступ к запрошенному ресурсу запрещен.</p>
-            <p>У вас недостаточно прав для просмотра этой страницы.</p>
-            <div class="navigation">
-                <a href="/" class="nav-link">На главную</a>
-            </div>
-        </div>
-    </div>
-</body>
-</html>''', 403
-
-
-@app.route('/405')
-def method_not_allowed():
-    return '''<!doctype html>
-<html>
-<head>
-    <title>405 Method Not Allowed</title>
-    <link rel="stylesheet" href="''' + url_for('static', filename='lab1.css') + '''">
-</head>
-<body>
-    <div class="container">
-        <div class="content-card">
-            <h1 class="text-danger">405 Method Not Allowed</h1>
-            <p>Метод запроса не поддерживается для данного ресурса.</p>
-            <p>Проверьте используемый HTTP метод (GET, POST, etc.).</p>
-            <div class="navigation">
-                <a href="/" class="nav-link">На главную</a>
-            </div>
-        </div>
-    </div>
-</body>
-</html>''', 405
-
-
-@app.route('/418')
-def teapot():
-    return '''<!doctype html>
-<html>
-<head>
-    <title>418 I'm a teapot</title>
-    <link rel="stylesheet" href="''' + url_for('static', filename='lab1.css') + '''">
-</head>
-<body>
-    <div class="container">
-        <div class="content-card">
-            <h1 class="text-warning">418 I'm a teapot</h1>
-            <p>Ошибка</p>
-            <p>Это код ошибки из RFC 2324.</p>
-            <div class="navigation">
-                <a href="/" class="nav-link">На главную</a>
-                <a href="/gjdnjh" class="nav-link" style="background: linear-gradient(45deg, #6f4e37, #8B4513);">Попробовать снова</a>
-            </div>
-        </div>
-    </div>
-</body>
-</html>''', 418
-
-
-@app.route('/gjdnjh')
-def gjdnjh():
-    return redirect('/418')
-
-
-@app.route('/errors')
-def errors_list():
-    css_path = url_for("static", filename="lab1.css")
-    return '''<!doctype html>
-<html>
-<head>
-    <title>Список HTTP ошибок</title>
-    <link rel="stylesheet" href="''' + css_path + '''">
-</head>
-<body>
-    <div class="container">
-        <div class="content-card">
-            <h1>Список HTTP ошибок для тестирования</h1>
-            
-            <div class="navigation">
-                <a href="/400" class="nav-link" style="background: linear-gradient(45deg, #ff6b6b, #c23616);">400 Bad Request</a>
-                <a href="/401" class="nav-link" style="background: linear-gradient(45deg, #e84118, #c23616);">401 Unauthorized</a>
-                <a href="/402" class="nav-link" style="background: linear-gradient(45deg, #fbc531, #e1b12c);">402 Payment Required</a>
-                <a href="/403" class="nav-link" style="background: linear-gradient(45deg, #ff4757, #c23616);">403 Forbidden</a>
-                <a href="/405" class="nav-link" style="background: linear-gradient(45deg, #3742fa, #2f3542);">405 Method Not Allowed</a>
-                <a href="/418" class="nav-link" style="background: linear-gradient(45deg, #6f4e37, #8B4513);">418 I'm a teapot</a>
-            </div>
-            
-            <div style="margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 10px;">
-                <h3>Как проверить коды ответа:</h3>
-                <ol style="text-align: left; margin-left: 20px;">
-                    <li>Откройте инструменты разработчика (F12)</li>
-                    <li>Перейдите на вкладку "Network"</li>
-                    <li>Нажмите на любую ссылку выше</li>
-                    <li>В списке запросов найдите ваш запрос</li>
-                    <li>В колонке "Status" увидите код ответа</li>
-                </ol>
-            </div>
-            
-            <div class="navigation">
-                <a href="/" class="nav-link">На главную</a>
-            </div>
-        </div>
-    </div>
-</body>
-</html>'''
-
-
 @app.route("/")
 @app.route("/index")
 def index():
+
     css_path = url_for("static", filename="lab1.css")
     return '''<!doctype html>
 <html>
