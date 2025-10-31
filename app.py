@@ -5,6 +5,7 @@ import datetime
 app = Flask(__name__)
 app.register_blueprint(lab1)
 
+
 @app.errorhandler(404)
 def not_found(err):
     css_path = url_for("static", filename="lab1.css")
@@ -60,6 +61,7 @@ def not_found(err):
     </div>
 </body>
 </html>''', 404
+
 
 @app.errorhandler(500)
 def internal_server_error(err):
@@ -177,10 +179,12 @@ def internal_server_error(err):
 </body>
 </html>''', 500
 
+
 @app.route('/generate-error')
 def generate_error():
     result = 1 / 0
     return str(result)
+
 
 @app.errorhandler(400)
 def bad_request(err):
@@ -207,6 +211,7 @@ def bad_request(err):
 </body>
 </html>''', 400
 
+
 @app.route('/401')
 def unauthorized():
     return '''<!doctype html>
@@ -228,6 +233,7 @@ def unauthorized():
     </div>
 </body>
 </html>''', 401
+
 
 @app.route('/402')
 def payment_required():
@@ -251,6 +257,7 @@ def payment_required():
 </body>
 </html>''', 402
 
+
 @app.route('/403')
 def forbidden():
     return '''<!doctype html>
@@ -273,6 +280,7 @@ def forbidden():
 </body>
 </html>''', 403
 
+
 @app.route('/405')
 def method_not_allowed():
     return '''<!doctype html>
@@ -294,6 +302,7 @@ def method_not_allowed():
     </div>
 </body>
 </html>''', 405
+
 
 @app.route('/418')
 def teapot():
@@ -318,9 +327,11 @@ def teapot():
 </body>
 </html>''', 418
 
+
 @app.route('/gjdnjh')
 def gjdnjh():
     return redirect('/418')
+
 
 @app.route('/errors')
 def errors_list():
@@ -364,6 +375,7 @@ def errors_list():
 </body>
 </html>'''
 
+
 @app.route("/")
 @app.route("/index")
 def index():
@@ -401,15 +413,20 @@ def index():
 </body>
 </html>
 '''
+
+
 @app.route("/lab2/a/")
 def a2():
     return 'со слешем'
+
 
 @app.route("/lab2/a")
 def a():
     return 'без слеша'
 
+
 flower_list = ['роза', 'тюльпан', 'незабудка', 'ромашка']
+
 
 @app.route('/lab2/flowers/<int:flower_id>')
 def flowers(flower_id):
@@ -417,6 +434,7 @@ def flowers(flower_id):
         abort(404)
     else:
         return "цветок: " + flower_list[flower_id]
+
 
 @app.route('/lab2/add_flower/')
 @app.route('/lab2/add_flower/<name>')
@@ -437,6 +455,7 @@ def add_flower(name=None):
 </html>
 '''
 
+
 @app.route('/lab2/example')
 def example():
     name, lab_num, group, course = 'Ворошилова Елизавета', 2, 'ФБИ-34', 3
@@ -451,14 +470,17 @@ def example():
                             name=name, lab_num=lab_num, group=group,
                             course=course, fruits=fruits)
 
+
 @app.route('/lab2/')
 def lab2():
     return render_template('lab2.html')
+
 
 @app.route('/lab2/filters')
 def filters():
     phrase  = "О <b>сколько</b> <u>нам</u> <i>открытий</i> чудных..."
     return render_template('filter.html', phrase = phrase)
+
 
 @app.route('/lab2/flower/<int:flower_id>')
 def flower(flower_id):
@@ -503,6 +525,7 @@ def flower(flower_id):
 </html>
 '''
 
+
 @app.route('/lab2/clear_flowers')
 def clear_flowers():
     flower_list.clear()
@@ -535,24 +558,29 @@ def clear_flowers():
 </html>
 '''
 
+
 @app.route('/lab2/calc/<int:a>/<int:b>')
 def calc(a, b):
     return render_template('calc.html', a=a, b=b)
+
 
 @app.route('/lab2/calc/')
 def calc_default():
     """Перенаправляет с /lab2/calc/ на /lab2/calc/1/1"""
     return redirect('/lab2/calc/1/1')
 
+
 @app.route('/lab2/calc/<int:a>')
 def calc_single(a):
     """Перенаправляет с /lab2/calc/<a> на /lab2/calc/<a>/1"""
     return redirect(f'/lab2/calc/{a}/1')
 
+
 @app.route('/lab2/calc/<int:a>/<int:b>')
 def calc_full(a, b):
     """Основной обработчик калькулятора с двумя числами"""
     return render_template('calc.html', a=a, b=b)
+
 
 @app.route('/lab2/books')
 def books_list():
@@ -572,6 +600,7 @@ def books_list():
 ]
     """Страница со списком всех книг"""
     return render_template('books.html', books=books)
+
 
 berries = [
     {
@@ -716,10 +745,12 @@ berries = [
     }
 ]
 
+
 @app.route('/lab2/berries')
 def berries_list():
     """Страница со всеми ягодами"""
     return render_template('berries.html', berries=berries)
+
 
 @app.route('/lab2/')
 def lab2():
