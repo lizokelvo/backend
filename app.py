@@ -1,11 +1,18 @@
 from flask import Flask, url_for, redirect, abort, render_template  # type: ignore
 from lab1 import lab1
 from lab2 import lab2
+from lab3 import lab3
 import datetime
 
 app = Flask(__name__)
 app.register_blueprint(lab1)
 app.register_blueprint(lab2)
+app.register_blueprint(lab3)
+
+
+#@app.route("/")
+#def hello():
+#    return "Flask работает! Главная страница"
 
 
 @app.errorhandler(404)
@@ -203,6 +210,7 @@ def index():
             <nav class="navigation">
                 <a href="/lab1" class="nav-link">Первая лабораторная</a>
                 <a href="/lab2" class="nav-link">Вторая лабораторная</a>
+                <a href="/lab3" class="nav-link">Третья лабораторная</a>
                 <a href="/lab1/web" class="nav-link">Главная lab1</a>
                 <a href="/lab1/author" class="nav-link">Автор</a>
                 <a href="/lab1/image" class="nav-link">Изображение</a>
@@ -220,3 +228,5 @@ def index():
 </body>
 </html>
 '''
+
+app.run(debug=True)
