@@ -1,7 +1,7 @@
 from flask import Blueprint, url_for, request, redirect, abort, render_template # type: ignore
 import datetime
 
-lab2 = Blueprint('lab2', __name__)
+lab2 = Blueprint('lab2', __name__)  
 
 
 @lab2.route("/lab2/a/")
@@ -31,7 +31,7 @@ def add_flower(name=None):
     if name is None:
         abort(400)
     
-    flower_list.lab2end(name)
+    flower_list.append(name)  
     return f'''
 <!doctype html>
 <html>
@@ -58,11 +58,6 @@ def example():
     return render_template('example.html',
                             name=name, lab_num=lab_num, group=group,
                             course=course, fruits=fruits)
-
-
-@lab2.route('/lab2/')
-def lab2():
-    return render_template('lab2.html')
 
 
 @lab2.route('/lab2/filters')
@@ -165,12 +160,6 @@ def calc_single(a):
     return redirect(f'/lab2/calc/{a}/1')
 
 
-@lab2.route('/lab2/calc/<int:a>/<int:b>')
-def calc_full(a, b):
-    """Основной обработчик калькулятора с двумя числами"""
-    return render_template('calc.html', a=a, b=b)
-
-
 @lab2.route('/lab2/books')
 def books_list():
     books = [
@@ -206,134 +195,7 @@ berries = [
         'season': 'июль-август',
         'color': 'красный'
     },
-    {
-        'name': 'Черника',
-        'image': 'blueberry.jpg',
-        'description': 'Маленькая синяя ягода, улучшает зрение и память.',
-        'season': 'июль-август', 
-        'color': 'синий'
-    },
-    {
-        'name': 'Ежевика',
-        'image': 'blackberry.jpg',
-        'description': 'Тёмная сочная ягода с кисло-сладким вкусом, растёт на колючих кустах.',
-        'season': 'август-сентябрь',
-        'color': 'чёрный'
-    },
-    {
-        'name': 'Голубика',
-        'image': 'bilberry.jpg',
-        'description': 'Лесная ягода с характерным сизым налётом, очень полезна для глаз.',
-        'season': 'июль-август',
-        'color': 'синий'
-    },
-    {
-        'name': 'Смородина чёрная',
-        'image': 'blackcurrant.jpg',
-        'description': 'Ягода с насыщенным вкусом, чемпион по содержанию витамина C.',
-        'season': 'июль-август',
-        'color': 'чёрный'
-    },
-    {
-        'name': 'Смородина красная', 
-        'image': 'redcurrant.jpg',
-        'description': 'Прозрачная кисловатая ягода, идеальна для желе и компотов.',
-        'season': 'июль-август',
-        'color': 'красный'
-    },
-    {
-        'name': 'Крыжовник',
-        'image': 'gooseberry.jpg',
-        'description': 'Ягода с плотной кожицей, бывает зелёного, жёлтого и красного цвета.',
-        'season': 'июль-август',
-        'color': 'зелёный'
-    },
-    {
-        'name': 'Облепиха',
-        'image': 'seabuckthorn.jpg',
-        'description': 'Оранжевые ягоды на колючих ветках, очень богаты витаминами.',
-        'season': 'август-октябрь',
-        'color': 'оранжевый'
-    },
-    {
-        'name': 'Брусника',
-        'image': 'lingonberry.jpg',
-        'description': 'Красные кислые ягоды, растут в хвойных лесах, хорошо хранятся.',
-        'season': 'август-сентябрь',
-        'color': 'красный'
-    },
-    {
-        'name': 'Клюква',
-        'image': 'cranberry.jpg', 
-        'description': 'Кислая болотная ягода, природный антисептик, хороша для морсов.',
-        'season': 'сентябрь-октябрь',
-        'color': 'красный'
-    },
-    {
-        'name': 'Земляника',
-        'image': 'wild_strawberry.jpg',
-        'description': 'Лесная родственница клубники, мелкая но очень ароматная.',
-        'season': 'июнь-июль',
-        'color': 'красный'
-    },
-    {
-        'name': 'Морошка',
-        'image': 'cloudberry.jpg',
-        'description': 'Янтарная ягода северных болот, ценный источник витаминов.',
-        'season': 'июль-август',
-        'color': 'оранжевый'
-    },
-    {
-        'name': 'Жимолость',
-        'image': 'honeysuckle.jpg',
-        'description': 'Синие продолговатые ягоды, одни из самых ранних, созревают в июне.',
-        'season': 'июнь',
-        'color': 'синий'
-    },
-    {
-        'name': 'Ирга',
-        'image': 'serviceberry.jpg',
-        'description': 'Сладкие тёмно-синие ягоды, привлекают птиц, хороши в выпечке.',
-        'season': 'июль-август',
-        'color': 'синий'
-    },
-    {
-        'name': 'Калина',
-        'image': 'viburnum.jpg',
-        'description': 'Красные горьковатые ягоды, после заморозков становятся слаще.',
-        'season': 'сентябрь-октябрь',
-        'color': 'красный'
-    },
-    {
-        'name': 'Рябина',
-        'image': 'rowan.jpg',
-        'description': 'Оранжево-красные горькие ягоды, используются в народной медицине.',
-        'season': 'сентябрь-октябрь',
-        'color': 'оранжевый'
-    },
-    {
-        'name': 'Шиповник',
-        'image': 'rosehip.jpg',
-        'description': 'Плоды дикой розы, рекордсмен по витамину C, используется для чая.',
-        'season': 'август-октябрь',
-        'color': 'оранжевый'
-    },
-    {
-        'name': 'Боярышник',
-        'image': 'hawthorn.jpg',
-        'description': 'Красные мучнистые ягоды, полезны для сердечно-сосудистой системы.',
-        'season': 'сентябрь-октябрь',
-        'color': 'красный'
-    },
-    {
-        'name': 'Бузина',
-        'image': 'elderberry.jpg',
-        'description': 'Чёрные мелкие ягоды, используются в медицине и кулинарии.',
-        'season': 'август-сентябрь',
-        'color': 'чёрный'
-    }
 ]
-
 
 @lab2.route('/lab2/berries')
 def berries_list():
@@ -342,5 +204,6 @@ def berries_list():
 
 
 @lab2.route('/lab2/')
-def lab2():
+def lab2_main():  
     return render_template('lab2.html')
+
