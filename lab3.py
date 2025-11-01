@@ -6,5 +6,10 @@ lab3 = Blueprint('lab3', __name__)
 
 @lab3.route('/lab3/')
 def lab():
-    return render_template('lab3/lab3.html')
+    name = request.cookies.get('name')
+    return render_template('lab3/lab3.html', name=name)
 
+
+@lab3.route('/lab3/cookie')
+def cookie():
+    return 'yctaHoska cookie', 200, {'Set-Cookie': 'name=Alex'}
