@@ -177,7 +177,7 @@ def created():
 ''', 201
 
 @lab1.route("/lab1")
-def lab1():
+def lab1_page():
     css_path = url_for("static", filename="lab1.css")
     return '''<!doctype html>
 <html>
