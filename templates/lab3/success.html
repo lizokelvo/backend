@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 3{% endblock %}
+
+{% block main %}
+    <h1>Оплата прошла успешно!</h1>
+    
+    <div style="color: green; font-size: 24px; margin: 20px 0;">
+        Ваш заказ успешно оплачен!
+    </div>
+    
+    <p>Спасибо за ваш заказ. Напиток будет приготовлен в ближайшее время.</p>
+    
+    <div>
+        <a href="/lab3/order">Сделать новый заказ</a>
+    </div>
+{% endblock %}

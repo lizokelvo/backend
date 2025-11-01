@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 3 - Настройки стиля{% endblock %}
+
+{% block main %}
+    <h1>Настройки стиля страницы</h1>
+    
+    <div style="border: 1px solid #ccc; padding: 20px; margin: 20px 0;">
+        <h3>Текущие настройки:</h3>
+        <p>Цвет текста: <span style="color: {{ request.cookies.get('color', 'black') }}">{{ request.cookies.get('color', 'Чёрный') }}</span></p>
+        <p>Цвет фона: <span style="background-color: {{ request.cookies.get('bg_color', 'white') }}; padding: 2px 5px;">{{ request.cookies.get('bg_color', 'Белый') }}</span></p>
+        <p>Размер шрифта: {{ request.cookies.get('font_size', '16') }}px</p>
+        <p>Шрифт: {{ request.cookies.get('font_family', 'Стандартный') }}</p>
+    </div>
+    
+    <form method="post">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+
+            <div>
+                <h3>Цвет текста:</h3>
+                <select name="color">
+                    <option value="">-- Выберите цвет --</option>
+                    <option value="black">Чёрный</option>
+                    <option value="red">Красный</option>
+                    <option value="blue">Синий</option>
+                    <option value="green">Зелёный</option>
+                    <option value="purple">Фиолетовый</option>
+                    <option value="orange">Оранжевый</option>
+                    <option value="brown">Коричневый</option>
+                </select>
+                <div style="margin-top: 10px;">
+                    <input type="text" name="custom_color" placeholder="Или введите свой цвет (red, #FF0000)">
+                </div>
+            </div>
+
+            <div>
+                <h3>Цвет фона:</h3>
+                <select name="bg_color">
+                    <option value="">-- Выберите фон --</option>
+                    <option value="white">Белый</option>
+                    <option value="lightgray">Светло-серый</option>
+                    <option value="lightblue">Светло-голубой</option>
+                    <option value="lightgreen">Светло-зелёный</option>
+                    <option value="lightyellow">Светло-жёлтый</option>
+                    <option value="lightpink">Светло-розовый</option>
+                    <option value="black">Чёрный</option>
+                </select>
+                <div style="margin-top: 10px;">
+                    <input type="text" name="custom_bg_color" placeholder="Или введите свой цвет">
+                </div>
+            </div>
+
+            <div>
+                <h3>Размер шрифта:</h3>
+                <select name="font_size">
+                    <option value="">-- Выберите размер --</option>
+                    <option value="12">Маленький (12px)</option>
+                    <option value="14">Средний (14px)</option>
+                    <option value="16">Обычный (16px)</option>
+                    <option value="18">Крупный (18px)</option>
+                    <option value="20">Очень крупный (20px)</option>
+                    <option value="24">Заголовочный (24px)</option>
+                </select>
+                <div style="margin-top: 10px;">
+                    <input type="number" name="custom_font_size" placeholder="Или введите размер (px)" min="8" max="72">
+                </div>
+            </div>
+
+            <div>
+                <h3>Шрифт:</h3>
+                <select name="font_family">
+                    <option value="">-- Выберите шрифт --</option>
+                    <option value="Arial, sans-serif">Arial</option>
+                    <option value="'Times New Roman', serif">Times New Roman</option>
+                    <option value="'Courier New', monospace">Courier New</option>
+                    <option value="Verdana, sans-serif">Verdana</option>
+                    <option value="Georgia, serif">Georgia</option>
+                    <option value="'Comic Sans MS', cursive">Comic Sans MS</option>
+                </select>
+            </div>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <button type="submit">Применить настройки</button>
+            <button type="submit" name="reset" value="true">Сбросить все настройки</button>
+        </div>
+    </form>
+    
+    <div style="margin-top: 30px; padding: 15px; background-color: #f5f5f5; border-radius: 5px;">
+        <h3>Пример текста с текущими настройками:</h3>
+        <p>Это пример текста, который демонстрирует, как будут выглядеть ваши настройки стиля.</p>
+        <p>Вы можете видеть текущий цвет текста, фон, размер и тип шрифта.</p>
+    </div>
+{% endblock %}

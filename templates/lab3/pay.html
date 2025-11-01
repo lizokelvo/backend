@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 3{% endblock %}
+
+{% block main %}
+    <h1>Оплата заказа</h1>
+
+    <div>
+        <p>Ваш заказ: 
+            {% if drink == 'coffee' %}Кофе
+            {% elif drink == 'black_tea' %}Чёрный чай
+            {% elif drink == 'green_tea' %}Зелёный чай
+            {% endif %}
+        </p>
+        
+        <p>Добавки: 
+            {% if additions %}
+                {% for addition in additions %}
+                    {% if addition == 'sugar' %}сахар{% endif %}
+                    {% if addition == 'milk' %}молоко{% endif %}
+                    {% if not loop.last %}, {% endif %}
+                {% endfor %}
+            {% else %}
+                без добавок
+            {% endif %}
+        </p>
+    </div>
+
+    <form method="post" action="/lab3/success">
+        <div>
+            <label>Номер карты:</label>
+            <div>
+                <input type="text" name="card" placeholder="0000 0000 0000 0000" required>
+            </div>
+        </div>
+
+        <div>
+            <label>Имя держателя карты:</label>
+            <div>
+                <input type="text" name="name" placeholder="IVAN IVANOV" required>
+            </div>
+        </div>
+
+        <div>
+            <label>CVV код:</label>
+            <div>
+                <input type="text" name="cvv" placeholder="123" required>
+            </div>
+        </div>
+
+        <div>
+            <button type="submit">Оплатить</button>
+        </div>
+    </form>
+{% endblock %}
