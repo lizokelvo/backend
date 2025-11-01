@@ -55,7 +55,7 @@ def example():
         {'name': 'мандарины', 'price': 95},
         {'name': 'манго', 'price': 321}
     ]
-    return render_template('example.html',
+    return render_template('templates\lab2\example.html',
                             name=name, lab_num=lab_num, group=group,
                             course=course, fruits=fruits)
 
@@ -63,7 +63,7 @@ def example():
 @lab2.route('/lab2/filters')
 def filters():
     phrase  = "О <b>сколько</b> <u>нам</u> <i>открытий</i> чудных..."
-    return render_template('filter.html', phrase = phrase)
+    return render_template('templates\lab2\filter.html', phrase = phrase)
 
 
 @lab2.route('/lab2/flower/<int:flower_id>')
@@ -145,7 +145,7 @@ def clear_flowers():
 
 @lab2.route('/lab2/calc/<int:a>/<int:b>')
 def calc(a, b):
-    return render_template('calc.html', a=a, b=b)
+    return render_template('templates\lab2\calc.html', a=a, b=b)
 
 
 @lab2.route('/lab2/calc/')
@@ -177,7 +177,7 @@ def books_list():
     {'author': 'Николай Лесков', 'title': 'Левша', 'genre': 'Повесть', 'pages': 96}
 ]
     """Страница со списком всех книг"""
-    return render_template('books.html', books=books)
+    return render_template('templates\lab2\books.html', books=books)
 
 
 berries = [
@@ -200,10 +200,9 @@ berries = [
 @lab2.route('/lab2/berries')
 def berries_list():
     """Страница со всеми ягодами"""
-    return render_template('berries.html', berries=berries)
+    return render_template('templates\lab2\berries.html', berries=berries)
 
 
 @lab2.route('/lab2/')
 def lab2_main():  
-    return render_template('lab2.html')
-
+    return render_template('templates\lab2\lab2.html')

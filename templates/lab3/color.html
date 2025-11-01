@@ -5,12 +5,18 @@
 {% block main %}
     <h1>Настройки стиля страницы</h1>
     
-    <div style="border: 1px solid #ccc; padding: 20px; margin: 20px 0;">
+    <div style="border: 1px solid #ccc; padding: 20px; margin: 20px 0; background: #f9f9f9;">
         <h3>Текущие настройки:</h3>
         <p>Цвет текста: <span style="color: {{ request.cookies.get('color', 'black') }}">{{ request.cookies.get('color', 'Чёрный') }}</span></p>
         <p>Цвет фона: <span style="background-color: {{ request.cookies.get('bg_color', 'white') }}; padding: 2px 5px;">{{ request.cookies.get('bg_color', 'Белый') }}</span></p>
         <p>Размер шрифта: {{ request.cookies.get('font_size', '16') }}px</p>
         <p>Шрифт: {{ request.cookies.get('font_family', 'Стандартный') }}</p>
+        
+        <div style="margin-top: 15px;">
+            <a href="/lab3/reset_style" style="display: inline-block; padding: 8px 15px; background: #e74c3c; color: white; text-decoration: none; border-radius: 4px;">
+                Сбросить все стили
+            </a>
+        </div>
     </div>
     
     <form method="post">
@@ -20,69 +26,105 @@
                 <h3>Цвет текста:</h3>
                 <select name="color">
                     <option value="">-- Выберите цвет --</option>
-                    <option value="black">Чёрный</option>
-                    <option value="red">Красный</option>
-                    <option value="blue">Синий</option>
-                    <option value="green">Зелёный</option>
-                    <option value="purple">Фиолетовый</option>
-                    <option value="orange">Оранжевый</option>
-                    <option value="brown">Коричневый</option>
+                    <option value="black" {% if request.cookies.get('color') == 'black' %}selected{% endif %}>Чёрный</option>
+                    <option value="red" {% if request.cookies.get('color') == 'red' %}selected{% endif %}>Красный</option>
+                    <option value="blue" {% if request.cookies.get('color') == 'blue' %}selected{% endif %}>Синий</option>
+                    <option value="green" {% if request.cookies.get('color') == 'green' %}selected{% endif %}>Зелёный</option>
+                    <option value="purple" {% if request.cookies.get('color') == 'purple' %}selected{% endif %}>Фиолетовый</option>
+                    <option value="orange" {% if request.cookies.get('color') == 'orange' %}selected{% endif %}>Оранжевый</option>
+                    <option value="brown" {% if request.cookies.get('color') == 'brown' %}selected{% endif %}>Коричневый</option>
                 </select>
                 <div style="margin-top: 10px;">
-                    <input type="text" name="custom_color" placeholder="Или введите свой цвет (red, #FF0000)">
+                    <input type="text" name="custom_color" placeholder="Или введите свой цвет (red, #FF0000)" value="{{ request.cookies.get('color') if request.cookies.get('color') not in ['black', 'red', 'blue', 'green', 'purple', 'orange', 'brown'] else '' }}">
                 </div>
             </div>
-
+            
             <div>
                 <h3>Цвет фона:</h3>
                 <select name="bg_color">
                     <option value="">-- Выберите фон --</option>
-                    <option value="white">Белый</option>
-                    <option value="lightgray">Светло-серый</option>
-                    <option value="lightblue">Светло-голубой</option>
-                    <option value="lightgreen">Светло-зелёный</option>
-                    <option value="lightyellow">Светло-жёлтый</option>
-                    <option value="lightpink">Светло-розовый</option>
-                    <option value="black">Чёрный</option>
+                    <option value="white" {% if request.cookies.get('bg_color') == 'white' %}selected{% endif %}>Белый</option>
+                    <option value="lightgray" {% if request.cookies.get('bg_color') == 'lightgray' %}selected{% endif %}>Светло-серый</option>
+                    <option value="lightblue" {% if request.cookies.get('bg_color') == 'lightblue' %}selected{% endif %}>Светло-голубой</option>
+                    <option value="lightgreen" {% if request.cookies.get('bg_color') == 'lightgreen' %}selected{% endif %}>Светло-зелёный</option>
+                    <option value="lightyellow" {% if request.cookies.get('bg_color') == 'lightyellow' %}selected{% endif %}>Светло-жёлтый</option>
+                    <option value="lightpink" {% if request.cookies.get('bg_color') == 'lightpink' %}selected{% endif %}>Светло-розовый</option>
+                    <option value="black" {% if request.cookies.get('bg_color') == 'black' %}selected{% endif %}>Чёрный</option>
                 </select>
                 <div style="margin-top: 10px;">
-                    <input type="text" name="custom_bg_color" placeholder="Или введите свой цвет">
+                    <input type="text" name="custom_bg_color" placeholder="Или введите свой цвет" value="{{ request.cookies.get('bg_color') if request.cookies.get('bg_color') not in ['white', 'lightgray', 'lightblue', 'lightgreen', 'lightyellow', 'lightpink', 'black'] else '' }}">
                 </div>
             </div>
-
+            
             <div>
                 <h3>Размер шрифта:</h3>
                 <select name="font_size">
                     <option value="">-- Выберите размер --</option>
-                    <option value="12">Маленький (12px)</option>
-                    <option value="14">Средний (14px)</option>
-                    <option value="16">Обычный (16px)</option>
-                    <option value="18">Крупный (18px)</option>
-                    <option value="20">Очень крупный (20px)</option>
-                    <option value="24">Заголовочный (24px)</option>
+                    <option value="12" {% if request.cookies.get('font_size') == '12' %}selected{% endif %}>Маленький (12px)</option>
+                    <option value="14" {% if request.cookies.get('font_size') == '14' %}selected{% endif %}>Средний (14px)</option>
+                    <option value="16" {% if request.cookies.get('font_size') == '16' %}selected{% endif %}>Обычный (16px)</option>
+                    <option value="18" {% if request.cookies.get('font_size') == '18' %}selected{% endif %}>Крупный (18px)</option>
+                    <option value="20" {% if request.cookies.get('font_size') == '20' %}selected{% endif %}>Очень крупный (20px)</option>
+                    <option value="24" {% if request.cookies.get('font_size') == '24' %}selected{% endif %}>Заголовочный (24px)</option>
                 </select>
                 <div style="margin-top: 10px;">
-                    <input type="number" name="custom_font_size" placeholder="Или введите размер (px)" min="8" max="72">
+                    <input type="number" name="custom_font_size" placeholder="Или введите размер (px)" min="8" max="72" value="{{ request.cookies.get('font_size') if request.cookies.get('font_size') not in ['12', '14', '16', '18', '20', '24'] else '' }}">
                 </div>
             </div>
-
+            
             <div>
                 <h3>Шрифт:</h3>
                 <select name="font_family">
                     <option value="">-- Выберите шрифт --</option>
-                    <option value="Arial, sans-serif">Arial</option>
-                    <option value="'Times New Roman', serif">Times New Roman</option>
-                    <option value="'Courier New', monospace">Courier New</option>
-                    <option value="Verdana, sans-serif">Verdana</option>
-                    <option value="Georgia, serif">Georgia</option>
-                    <option value="'Comic Sans MS', cursive">Comic Sans MS</option>
+                    <option value="Arial, sans-serif" {% if request.cookies.get('font_family') == 'Arial, sans-serif' %}selected{% endif %}>Arial</option>
+                    <option value="'Times New Roman', serif" {% if request.cookies.get('font_family') == "'Times New Roman', serif" %}selected{% endif %}>Times New Roman</option>
+                    <option value="'Courier New', monospace" {% if request.cookies.get('font_family') == "'Courier New', monospace" %}selected{% endif %}>Courier New</option>
+                    <option value="Verdana, sans-serif" {% if request.cookies.get('font_family') == 'Verdana, sans-serif' %}selected{% endif %}>Verdana</option>
+                    <option value="Georgia, serif" {% if request.cookies.get('font_family') == 'Georgia, serif' %}selected{% endif %}>Georgia</option>
+                    <option value="'Comic Sans MS', cursive" {% if request.cookies.get('font_family') == "'Comic Sans MS', cursive" %}selected{% endif %}>Comic Sans MS</option>
                 </select>
+            </div>
+
+            <div>
+                <h3>Цвет заголовка:</h3>
+                <select name="header_color">
+                    <option value="">-- Цвет текста --</option>
+                    <option value="black" {% if request.cookies.get('header_color') == 'black' %}selected{% endif %}>Чёрный</option>
+                    <option value="white" {% if request.cookies.get('header_color') == 'white' %}selected{% endif %}>Белый</option>
+                    <option value="darkblue" {% if request.cookies.get('header_color') == 'darkblue' %}selected{% endif %}>Тёмно-синий</option>
+                    <option value="darkred" {% if request.cookies.get('header_color') == 'darkred' %}selected{% endif %}>Тёмно-красный</option>
+                </select>
+                
+                <div style="margin-top: 10px;">
+                    <label>Фон заголовка:</label>
+                    <input type="text" name="header_bg" placeholder="Цвет фона заголовка" value="{{ request.cookies.get('header_bg', '') }}">
+                </div>
+            </div>
+
+            <div>
+                <h3>Цвет футера:</h3>
+                <select name="footer_color">
+                    <option value="">-- Цвет текста --</option>
+                    <option value="black" {% if request.cookies.get('footer_color') == 'black' %}selected{% endif %}>Чёрный</option>
+                    <option value="white" {% if request.cookies.get('footer_color') == 'white' %}selected{% endif %}>Белый</option>
+                    <option value="gray" {% if request.cookies.get('footer_color') == 'gray' %}selected{% endif %}>Серый</option>
+                    <option value="darkgreen" {% if request.cookies.get('footer_color') == 'darkgreen' %}selected{% endif %}>Тёмно-зелёный</option>
+                </select>
+                
+                <div style="margin-top: 10px;">
+                    <label>Фон футера:</label>
+                    <input type="text" name="footer_bg" placeholder="Цвет фона футера" value="{{ request.cookies.get('footer_bg', '') }}">
+                </div>
             </div>
         </div>
         
-        <div style="margin-top: 20px;">
-            <button type="submit">Применить настройки</button>
-            <button type="submit" name="reset" value="true">Сбросить все настройки</button>
+        <div style="margin-top: 20px; text-align: center;">
+            <button type="submit" style="padding: 10px 20px; background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">
+                Применить настройки
+            </button>
+            <button type="submit" name="reset" value="true" style="padding: 10px 20px; background: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Сбросить всё
+            </button>
         </div>
     </form>
     

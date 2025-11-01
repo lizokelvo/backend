@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 3 - Железнодорожный билет{% endblock %}
+
+{% block main %}
+    <h1>Оформление железнодорожного билета</h1>
+
+    {% if errors %}
+        <div style="color: red; background: #ffe6e6; padding: 15px; border: 1px solid red; border-radius: 5px; margin: 20px 0;">
+            <h3>Ошибки заполнения формы:</h3>
+            <ul>
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <form method="post">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+
+            <div>
+                <h3>Личные данные</h3>
+                
+                <div style="margin-bottom: 15px;">
+                    <label>ФИО пассажира:</label>
+                    <input type="text" name="fio" value="{{ fio or '' }}" style="width: 100%; padding: 8px;" required>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label>Возраст:</label>
+                    <input type="number" name="age" value="{{ age or '' }}" min="1" max="120" style="width: 100%; padding: 8px;" required>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label>Полка:</label>
+                    <select name="shelf" style="width: 100%; padding: 8px;" required>
+                        <option value="">-- Выберите полку --</option>
+                        <option value="lower" {% if shelf == 'lower' %}selected{% endif %}>Нижняя</option>
+                        <option value="upper" {% if shelf == 'upper' %}selected{% endif %}>Верхняя</option>
+                        <option value="lower_side" {% if shelf == 'lower_side' %}selected{% endif %}>Нижняя боковая</option>
+                        <option value="upper_side" {% if shelf == 'upper_side' %}selected{% endif %}>Верхняя боковая</option>
+                    </select>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label>
+                        <input type="checkbox" name="bedding" {% if bedding %}checked{% endif %}>
+                        С бельём (+75 руб.)
+                    </label>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label>
+                        <input type="checkbox" name="luggage" {% if luggage %}checked{% endif %}>
+                        С багажом (+250 руб.)
+                    </label>
+                </div>
+            </div>
+
+            <div>
+                <h3>Информация о поездке</h3>
+
+                <div style="margin-bottom: 15px;">
+                    <label>Пункт выезда:</label>
+                    <input type="text" name="departure" value="{{ departure or '' }}" style="width: 100%; padding: 8px;" required>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label>Пункт назначения:</label>
+                    <input type="text" name="destination" value="{{ destination or '' }}" style="width: 100%; padding: 8px;" required>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label>Дата поездки:</label>
+                    <input type="date" name="travel_date" value="{{ travel_date or '' }}" style="width: 100%; padding: 8px;" required>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label>
+                        <input type="checkbox" name="insurance" {% if insurance %}checked{% endif %}>
+                        Страховка (+150 руб.)
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px; text-align: center;">
+            <button type="submit" style="padding: 12px 30px; background: #27ae60; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
+                Оформить билет
+            </button>
+        </div>
+    </form>
+
+    <div style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 5px;">
+        <h3>Справка по стоимости:</h3>
+        <ul>
+            <li>Взрослый билет: 1 000 руб.</li>
+            <li>Детский билет (до 18 лет): 700 руб.</li>
+            <li>Нижняя/нижняя боковая полка: +100 руб.</li>
+            <li>Бельё: +75 руб.</li>
+            <li>Багаж: +250 руб.</li>
+            <li>Страховка: +150 руб.</li>
+        </ul>
+    </div>
+{% endblock %}
