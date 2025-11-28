@@ -7,8 +7,13 @@
     
     <div style="border: 1px solid #ccc; padding: 20px; margin: 20px 0; background: #f9f9f9;">
         <h3>Текущие настройки:</h3>
-        <p>Цвет текста: <span style="color: {{ request.cookies.get('color', 'black') }}">{{ request.cookies.get('color', 'Чёрный') }}</span></p>
-        <p>Цвет фона: <span style="background-color: {{ request.cookies.get('bg_color', 'white') }}; padding: 2px 5px;">{{ request.cookies.get('bg_color', 'Белый') }}</span></p>
+        <p>Цвет текста: 
+    <span id="text-color" style="color: black;">{{ request.cookies.get('color', 'Чёрный') }}</span>
+</p>
+<p>Цвет фона: 
+    <span id="bg-color" style="background-color: white; padding: 2px 5px;">{{ request.cookies.get('bg_color', 'Белый') }}</span>
+</p>
+
         <p>Размер шрифта: {{ request.cookies.get('font_size', '16') }}px</p>
         <p>Шрифт: {{ request.cookies.get('font_family', 'Стандартный') }}</p>
         
