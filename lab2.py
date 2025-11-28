@@ -203,6 +203,6 @@ def berries_list():
     return render_template('templates\lab2\berries.html', berries=berries)
 
 
-@lab2.route('/lab2/')
+@lab2.route('/lab2')
 def lab2_main():  
     return render_template('templates\lab2\lab2.html')
