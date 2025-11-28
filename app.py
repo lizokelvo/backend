@@ -212,6 +212,7 @@ def index():
                 <a href="/lab1" class="nav-link">Первая лабораторная</a>
                 <a href="/lab2" class="nav-link">Вторая лабораторная</a>
                 <a href="/lab3" class="nav-link">Третья лабораторная</a>
+                <a href="/lab4" class="nav-link">Четвертая лабораторная</a>
                 <a href="/lab3/ticket">Железнодорожный билет</a>
                 <a href="/lab1/author" class="nav-link">Автор</a>
                 <a href="/lab1/image" class="nav-link">Изображение</a>
