@@ -6,27 +6,28 @@ lab1 = Blueprint('lab1', __name__)
 @lab1.route("/lab1/web")
 def web():
     css_path = url_for("static", filename="lab1.css")
-    return """<!doctype html>
-        <html>
-            <head>
-                <title>Главная lab1</title>
-                <link rel="stylesheet" href="""" + css_path + """">
-            </head>
-            <body>
-                <div class="container">
-                    <div class="content-card">
-                        <h1>web-сервер на flask</h1>
-                        <div class="navigation">
-                            <a href="/lab1/author" class="nav-link">Автор</a>
-                            <a href="/index" class="nav-link">Главная сайта</a>
-                            <a href="/lab1" class="nav-link">Описание lab1</a>
-                        </div>
+    return """
+    <!doctype html>
+    <html>
+        <head>
+            <title>Главная lab1</title>
+            <link rel="stylesheet" href="""" + css_path + """">
+        </head>
+        <body>
+            <div class="container">
+                <div class="content-card">
+                    <h1>web-сервер на flask</h1>
+                    <div class="navigation">
+                        <a href="/lab1/author" class="nav-link">Автор</a>
+                        <a href="/index" class="nav-link">Главная сайта</a>
+                        <a href="/lab1" class="nav-link">Описание lab1</a>
                     </div>
                 </div>
-            </body>
-        </html>""", 200, {
-            'Content-Type': 'text/plain; charset=utf-8'
-        }
+            </div>
+        </body>
+    </html>""", 200, {
+        'Content-Type': 'text/plain; charset=utf-8'
+    }
 
 
 @lab1.route("/lab1/author")
@@ -155,26 +156,26 @@ def info():
 def created():
     css_path = url_for("static", filename="lab1.css")
     return '''
-<!doctype html>
-<html>
-    <head>
-        <title>Создано</title>
-        <link rel="stylesheet" href="''' + css_path + '''">
-    </head>
-    <body>
-        <div class="container">
-            <div class="content-card">
-                <h1>Создано успешно</h1>
-                <div><i>что-то создано...</i></div>
-                <div class="navigation">
-                    <a href="/lab1/web" class="nav-link">Главная lab1</a>
-                    <a href="/index" class="nav-link">Главная сайта</a>
+    <!doctype html>
+    <html>
+        <head>
+            <title>Создано</title>
+            <link rel="stylesheet" href="''' + css_path + '''">
+        </head>
+        <body>
+            <div class="container">
+                <div class="content-card">
+                    <h1>Создано успешно</h1>
+                    <div><i>что-то создано...</i></div>
+                    <div class="navigation">
+                        <a href="/lab1/web" class="nav-link">Главная lab1</a>
+                        <a href="/index" class="nav-link">Главная сайта</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </body>
-</html>
-''', 201
+        </body>
+    </html>
+    ''', 201
 
 @lab1.route("/lab1")
 def lab1_page():
