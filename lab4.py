@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request # type: ignore
+from flask import Blueprint, render_template, request, session   # type: ignore
 
 lab4 = Blueprint('lab4', __name__)
 
@@ -83,6 +83,25 @@ users = [
     {'login': 'test', 'password': 'test123'}
 ]
 
+def user_exists(login):
+    """Проверяет, существует ли пользователь с таким логином"""
+    for user in users:
+        if user['login'] == login:
+            return True
+    return False
+
+def add_user(login, password):
+    """Добавляет нового пользователя"""
+    users.append({'login': login, 'password': password})
+    return True
+
+def authenticate_user(login, password):
+    """Проверяет учетные данные пользователя"""
+    for user in users:
+        if user['login'] == login and user['password'] == password:
+            return True, login
+    return False, None
+
 @lab4.route('/lab4/login', methods=['GET', 'POST'])
 def login():
     error = None
@@ -108,3 +127,38 @@ def login():
                          authorized=authorized,
                          login=user_login,
                          error=error)
+
+@lab4.route('/lab4/logout', methods=['POST'])
+def logout():
+    session.pop('login', None) # type: ignore
+    return redirect('/lab4/login') # type: ignore
+
+@lab4.route('/lab4/register', methods=['GET', 'POST'])
+def register():
+    error = None
+    success = None
+    
+    if request.method == 'POST':
+        login_input = request.form.get('login')
+        password_input = request.form.get('password')
+        password_confirm = request.form.get('password_confirm')
+        
+        # Валидация данных
+        if not login_input or not password_input:
+            error = 'Все поля обязательны для заполнения'
+        elif len(login_input) < 3:
+            error = 'Логин должен содержать не менее 3 символов'
+        elif len(password_input) < 4:
+            error = 'Пароль должен содержать не менее 4 символов'
+        elif password_input != password_confirm:
+            error = 'Пароли не совпадают'
+        elif user_exists(login_input):
+            error = 'Пользователь с таким логином уже существует'
+        else:
+            # Регистрируем нового пользователя
+            add_user(login_input, password_input)
+            success = f'Пользователь {login_input} успешно зарегистрирован!'
+    
+    return render_template('lab4/register.html',
+                         error=error,
+                         success=success)
