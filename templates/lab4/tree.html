@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 4{% endblock %}
+
+{% block main %}
+    <h1>Управление деревьями</h1>
+    
+    <div>
+        <h2>Посажено деревьев: {{ tree_count }}</h2>
+        <p>Максимальное количество деревьев: {{ max_trees }}</p>
+        
+        {% if tree_count == 0 %}
+            <p style="color: orange;">На участке нет деревьев!</p>
+        {% elif tree_count == max_trees %}
+            <p style="color: green;">Участок полностью засажен!</p>
+        {% endif %}
+    </div>
+    
+    <form method="post">
+        <button name="operation" value="plant" 
+                {% if not can_plant %}disabled{% endif %}>
+            Посадить дерево
+        </button>
+        
+        <button name="operation" value="cut" 
+                {% if not can_cut %}disabled{% endif %}>
+            Срубить дерево
+        </button>
+    </form>
+    
+    <div style="margin-top: 20px;">
+        <a href="/lab4">Вернуться к лабораторной работе 4</a>
+    </div>
+{% endblock %}
