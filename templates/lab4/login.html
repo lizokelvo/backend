@@ -12,32 +12,43 @@
         <h1>Вход</h1>
         <h2>Пожалуйста, авторизуйтесь</h2>
         
+        <div style="margin-bottom: 15px; color: #666; font-size: 14px;">
+            <p>Тестовые учетные записи:</p>
+            <ul style="margin: 5px 0;">
+                <li>Логин: <strong>alex</strong>, Пароль: <strong>123</strong></li>
+                <li>Логин: <strong>bob</strong>, Пароль: <strong>555</strong></li>
+                <li>Логин: <strong>user1</strong>, Пароль: <strong>qwerty</strong></li>
+                <li>Логин: <strong>admin</strong>, Пароль: <strong>admin123</strong></li>
+                <li>Логин: <strong>test</strong>, Пароль: <strong>test123</strong></li>
+            </ul>
+        </div>
+        
         {% if error %}
-            <div style="color: red; margin-bottom: 15px;">
+            <div style="color: red; margin-bottom: 15px; padding: 10px; background-color: #ffe6e6; border: 1px solid #ff9999;">
                 {{ error }}
             </div>
         {% endif %}
         
         <form method="post">
             <div style="margin-bottom: 15px;">
-                <label for="login">Пользователь:</label><br>
+                <label for="login" style="display: block; margin-bottom: 5px;">Пользователь:</label>
                 <input type="text" id="login" name="login" required 
-                       style="width: 200px; padding: 5px;">
+                       style="width: 250px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
             </div>
             
-            <div style="margin-bottom: 15px;">
-                <label for="password">Пароль:</label><br>
+            <div style="margin-bottom: 20px;">
+                <label for="password" style="display: block; margin-bottom: 5px;">Пароль:</label>
                 <input type="password" id="password" name="password" required 
-                       style="width: 200px; padding: 5px;">
+                       style="width: 250px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
             </div>
             
             <div style="margin-bottom: 15px;">
                 <button type="submit" 
-                        style="padding: 8px 15px; margin-right: 10px;">
+                        style="padding: 10px 20px; margin-right: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
                     Войти
                 </button>
                 <button type="reset" 
-                        style="padding: 8px 15px;">
+                        style="padding: 10px 20px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
                     Отмена
                 </button>
             </div>
