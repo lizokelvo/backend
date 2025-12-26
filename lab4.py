@@ -49,3 +49,62 @@ def sum():
     result = x1 + x2
 
     return render_template('lab4/sum.html', x1=x1, x2=x2, result=result)
+
+tree_count = 0
+MAX_TREES = 10  
+
+@lab4.route('/lab4/tree', methods=['GET', 'POST'])
+def tree():
+  
+    if request.method == 'POST': # type: ignore
+        operation = request.form.get('operation') # type: ignore
+        
+        if operation == 'plant' and tree_count < MAX_TREES:
+            tree_count += 1
+        elif operation == 'cut' and tree_count > 0:
+            tree_count -= 1
+
+        return redirect('/lab4/tree') # type: ignore
+    
+    return render_template('lab4/tree.html',  # type: ignore
+                         tree_count=tree_count,
+                         max_trees=MAX_TREES,
+                         can_plant=tree_count < MAX_TREES,
+                         can_cut=tree_count > 0)
+
+CORRECT_LOGIN = 'lizok'
+CORRECT_PASSWORD = '254685'
+
+users = [
+    {'login': 'alex', 'password': '123'},
+    {'login': 'bob', 'password': '555'},
+    {'login': 'user1', 'password': 'qwerty'},
+    {'login': 'admin', 'password': 'admin123'},
+    {'login': 'test', 'password': 'test123'}
+]
+
+@lab4.route('/lab4/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    authorized = False
+    user_login = None
+    
+    if request.method == 'POST':
+        login_input = request.form.get('login')
+        password_input = request.form.get('password')
+        
+        # Проверка учетных данных по списку пользователей
+        for user in users:
+            if login_input == user['login'] and password_input == user['password']:
+                authorized = True
+                user_login = login_input
+                break  # Прерываем цикл, если нашли пользователя
+        
+        if not authorized:
+            error = 'Неверные логин и/или пароль'
+    
+    # Рендерим шаблон с соответствующими параметрами
+    return render_template('lab4/login.html', 
+                         authorized=authorized,
+                         login=user_login,
+                         error=error)
