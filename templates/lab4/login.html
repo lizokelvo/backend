@@ -12,6 +12,12 @@
         <h1>Вход</h1>
         <h2>Пожалуйста, авторизуйтесь</h2>
         
+        {% if show_registration_success %}
+            <div style="color: green; margin-bottom: 15px; padding: 10px; background-color: #e6ffe6; border: 1px solid #4CAF50;">
+                Регистрация прошла успешно! Теперь вы можете войти.
+            </div>
+        {% endif %}
+        
         <div style="margin-bottom: 15px; color: #666; font-size: 14px;">
             <p>Тестовые учетные записи:</p>
             <ul style="margin: 5px 0;">
@@ -21,6 +27,7 @@
                 <li>Логин: <strong>admin</strong>, Пароль: <strong>admin123</strong></li>
                 <li>Логин: <strong>test</strong>, Пароль: <strong>test123</strong></li>
             </ul>
+            <p style="margin-top: 10px;">Или <a href="/lab4/register">зарегистрируйтесь</a> для создания новой учетной записи.</p>
         </div>
         
         {% if error %}
@@ -55,7 +62,8 @@
         </form>
         
         <div style="margin-top: 20px;">
-            <a href="/lab4">Вернуться к лабораторной работе 4</a>
+            <p>Нет аккаунта? <a href="/lab4/register">Зарегистрируйтесь</a></p>
+            <p><a href="/lab4">Вернуться к лабораторной работе 4</a></p>
         </div>
     {% endif %}
 {% endblock %}
