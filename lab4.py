@@ -4,20 +4,48 @@ lab4 = Blueprint('lab4', __name__)
 
 @lab4.route('/lab4/')
 def lab():
-    return render_template('lab4.html')
+    return render_template('lab4/lab4.html')
 
 @lab4.route('/lab4/div-form')
 def div_form():
-    return render_template('div-form.html')
+    return render_template('lab4/div-form.html')
 
 @lab4.route('/lab4/div', methods=['POST'])
 def div():
     x1 = request.form.get('x1')
     x2 = request.form.get('x2')
-    
+
     if x1 == '' or x2 == '':
         return render_template('lab4/div.html', error='Оба поля должны быть заполнены!')
+    if x2 == '0':
+        return render_template('lab4/div.html', error='На ноль делить нельзя!')
     x1 = int(x1)
     x2 = int(x2)
     result = x1 / x2
-    return render_template('div.html', x1=x1, x2=x2, result=result)
+
+    return render_template('lab4/div.html', x1=x1, x2=x2, result=result)
+
+@lab4.route('/lab4/sum-form')
+def sum_form():
+    return render_template('lab4/sum-form.html')
+
+@lab4.route('/lab4/sum', methods=['POST'])
+def sum():
+    x1 = request.form.get('x1')
+    x2 = request.form.get('x2')
+
+    if x1 == '':
+        result = x1 + 0
+    else:
+        result = x1 + x2
+
+    if x2 == '':
+        result = x1 + 0
+    else:
+        result = x1 + x2
+
+    x1 = int(x1)
+    x2 = int(x2)
+    result = x1 + x2
+
+    return render_template('lab4/sum.html', x1=x1, x2=x2, result=result)
