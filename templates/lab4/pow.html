@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block lab %}Возведение в степень{% endblock %}
+
+{% block main %}
+    <h1>Возведение в степень</h1>
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% else %}
+        {{ x1 }}<sup>{{ x2 }}</sup> = {{ result }}
+    {% endif %}
+{% endblock %}
