@@ -5,18 +5,26 @@
 {% block main %}
     {% if authorized %}
         <h1>Добро пожаловать, {{ login }}!</h1>
+        <div style="margin: 20px 0; padding: 15px; background-color: #f0f8ff; border-radius: 5px;">
+            <p>Вы успешно авторизованы в системе.</p>
+            <p>Ваш логин: <strong>{{ login }}</strong></p>
+        </div>
+        
+        <div>
+            <form action="/lab4/logout" method="post">
+                <button type="submit" 
+                        style="padding: 10px 20px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    Выход
+                </button>
+            </form>
+        </div>
+        
         <div style="margin-top: 20px;">
             <a href="/lab4">Вернуться к лабораторной работе 4</a>
         </div>
     {% else %}
         <h1>Вход</h1>
         <h2>Пожалуйста, авторизуйтесь</h2>
-        
-        {% if show_registration_success %}
-            <div style="color: green; margin-bottom: 15px; padding: 10px; background-color: #e6ffe6; border: 1px solid #4CAF50;">
-                Регистрация прошла успешно! Теперь вы можете войти.
-            </div>
-        {% endif %}
         
         <div style="margin-bottom: 15px; color: #666; font-size: 14px;">
             <p>Тестовые учетные записи:</p>
