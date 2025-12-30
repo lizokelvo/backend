@@ -3,6 +3,7 @@ from lab1 import lab1
 from lab2 import lab2
 from lab3 import lab3
 from lab4 import lab4
+from lab5 import lab5
 import datetime
 
 app = Flask(__name__)
@@ -10,6 +11,7 @@ app.register_blueprint(lab1)
 app.register_blueprint(lab2)
 app.register_blueprint(lab3)
 app.register_blueprint(lab4)
+app.register_blueprint(lab5)
 
 app.secret_key = 'my_secret_key_254685'
 
@@ -215,6 +217,11 @@ def index():
                 <a href="/lab2" class="nav-link">Вторая лабораторная</a>
                 <a href="/lab3" class="nav-link">Третья лабораторная</a>
                 <a href="/lab4" class="nav-link">Четвертая лабораторная</a>
+                <a href="/lab5" class="nav-link">Пятая лабораторная</a>
+                <a href="/lab6" class="nav-link">Шестая лабораторная</a>
+                <a href="/lab7" class="nav-link">Седьмая лабораторная</a>
+                <a href="/lab8" class="nav-link">Восьмая лабораторная</a>
+                <a href="/lab9" class="nav-link">Девятая лабораторная</a>
                 <a href="/lab3/ticket">Железнодорожный билет</a>
                 <a href="/lab1/author" class="nav-link">Автор</a>
                 <a href="/lab1/image" class="nav-link">Изображение</a>
