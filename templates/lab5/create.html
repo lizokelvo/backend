@@ -1,0 +1,84 @@
+{% extends "lab5/lab5.html" %}
+
+{% block lab5_content %}
+<div class="create-article">
+    <h2>Создать статью</h2>
+    
+    {% if not session.username %}
+        <div class="alert alert-warning">
+            <p>Чтобы создать статью, нужно <a href="/lab5/login">войти</a> или <a href="/lab5/register">зарегистрироваться</a>.</p>
+        </div>
+    {% else %}
+        <form method="POST">
+            <div class="form-group">
+                <label for="title">Заголовок:</label>
+                <input type="text" id="title" name="title" required class="form-control" placeholder="Введите заголовок статьи">
+            </div>
+            <div class="form-group">
+                <label for="content">Содержание:</label>
+                <textarea id="content" name="content" required class="form-control" rows="10" placeholder="Напишите содержание статьи"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Опубликовать статью</button>
+            <a href="/lab5/list" class="btn btn-secondary">Отмена</a>
+        </form>
+    {% endif %}
+</div>
+
+<style>
+    .create-article {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .create-article h2 {
+        color: #333;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-family: inherit;
+    }
+    
+    textarea.form-control {
+        resize: vertical;
+    }
+    
+    .alert-warning {
+        background-color: #fff3cd;
+        border: 1px solid #ffeaa7;
+        color: #856404;
+        padding: 15px;
+        border-radius: 4px;
+        text-align: center;
+    }
+    
+    .alert-warning a {
+        color: #856404;
+        text-decoration: underline;
+        font-weight: bold;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-right: 10px;
+    }
+</style>
+{% endblock %}
