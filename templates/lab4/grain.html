@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block lab %}Заказ зерна{% endblock %}
+
+{% block main %}
+<div class="container">
+    <h1>Заказ зерна</h1>
+    
+    <form method="POST" class="order-form">
+        <div class="form-group">
+            <label for="grain_type">Выберите зерно:</label>
+            <select id="grain_type" name="grain_type" class="form-control" required>
+                <option value="" disabled selected>-- Выберите зерно --</option>
+                <option value="barley" {% if grain_type == 'barley' %}selected{% endif %}>Ячмень (12 000 руб/т)</option>
+                <option value="oat" {% if grain_type == 'oat' %}selected{% endif %}>Овёс (8 500 руб/т)</option>
+                <option value="wheat" {% if grain_type == 'wheat' %}selected{% endif %}>Пшеница (9 000 руб/т)</option>
+                <option value="rye" {% if grain_type == 'rye' %}selected{% endif %}>Рожь (15 000 руб/т)</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="weight">Вес (в тоннах):</label>
+            <input type="number" id="weight" name="weight" 
+                   min="0.1" step="0.1" 
+                   placeholder="Введите вес" 
+                   class="form-control"
+                   value="{{ weight if weight else '' }}">
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Рассчитать заказ</button>
+    </form>
+
+    {% if error %}
+        <div class="alert alert-danger mt-3">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    {% if success %}
+        <div class="alert alert-success mt-3">
+            <h4>{{ success }}</h4>
+            <p><strong>Заказ успешно сформирован.</strong></p>
+            <p>Вы заказали {{ grain_name }}. Вес: {{ weight }} т.</p>
+            <p>Сумма к оплате: <strong>{{ total_price }} руб</strong></p>
+            
+            {% if discount_applied %}
+                <div class="discount-info">
+                    <p>✅ <strong>Применена скидка 10% за большой объём</strong></p>
+                    <p>Размер скидки: {{ discount_amount }} руб</p>
+                    <p>Цена без скидки: {{ original_price }} руб</p>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <div class="info-box mt-4">
+        <h3>Цены на зерно:</h3>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <strong>Ячмень:</strong> 12 000 руб/т
+            </li>
+            <li class="list-group-item">
+                <strong>Овёс:</strong> 8 500 руб/т
+            </li>
+            <li class="list-group-item">
+                <strong>Пшеница:</strong> 9 000 руб/т
+            </li>
+            <li class="list-group-item">
+                <strong>Рожь:</strong> 15 000 руб/т
+            </li>
+        </ul>
+        
+        <div class="mt-3">
+            <h4>Условия:</h4>
+            <ul>
+                <li>При заказе более 10 тонн - скидка 10%</li>
+                <li>Максимальный заказ - 100 тонн</li>
+                <li>Минимальный вес - 0.1 тонны</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .order-form {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 100%;
+    }
+    
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+    
+    .alert {
+        padding: 15px;
+        border-radius: 4px;
+        margin: 20px 0;
+    }
+    
+    .alert-danger {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+    }
+    
+    .alert-success {
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+        color: #155724;
+    }
+    
+    .info-box {
+        background-color: #e9ecef;
+        padding: 20px;
+        border-radius: 8px;
+    }
+    
+    .list-group {
+        list-style-type: none;
+        padding: 0;
+    }
+    
+    .list-group-item {
+        padding: 10px 15px;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .list-group-item:last-child {
+        border-bottom: none;
+    }
+    
+    .discount-info {
+        background-color: #fff3cd;
+        padding: 10px;
+        border-radius: 4px;
+        margin-top: 10px;
+        border: 1px solid #ffeaa7;
+    }
+    
+    h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    h3, h4 {
+        color: #495057;
+    }
+</style>
+{% endblock %}
