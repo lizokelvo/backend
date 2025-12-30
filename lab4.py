@@ -162,3 +162,4 @@ def register():
     return render_template('lab4/register.html',
                          error=error,
                          success=success)
+

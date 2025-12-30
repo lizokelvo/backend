@@ -238,5 +238,51 @@ def example():
     name = 'Ворошилова Елизавета'
     return render_template('exemple.html', name=name)
 
+@app.route('/refrigerator', methods=['GET', 'POST'])
+def refrigerator():
+    if request.method == 'POST': # type: ignore
+        temp_input = request.form.get('temperature') # type: ignore
+
+        # Проверка на пустое значение
+        if not temp_input:
+            return render_template('fridge.html',
+                                 error='Ошибка: не задана температура')
+
+        try:
+            temperature = int(temp_input)
+        except ValueError:
+            return render_template('fridge.html',
+                                 error='Ошибка: введите числовое значение')
+
+        # Проверка диапазонов
+        if temperature < -12:
+            return render_template('fridge.html',
+                                 error='Не удалось установить температуру — слишком низкое значение')
+        elif temperature > -1:
+            return render_template('fridge.html',
+                                 error='Не удалось установить температуру — слишком высокое значение')
+
+        # Успешные диапазоны
+        success_message = f'Установлена температура: {temperature}°C'
+
+        if -12 <= temperature <= -9:
+            snowflakes_count = 3
+            temp_range = "-12°C до -9°C"
+        elif -8 <= temperature <= -5:
+            snowflakes_count = 2
+            temp_range = "-8°C до -5°C"
+        elif -4 <= temperature <= -1:
+            snowflakes_count = 1
+            temp_range = "-4°C до -1°C"
+        else:
+            snowflakes_count = 0
+            temp_range = "неопределен"
+
+        return render_template('fridge.html',
+                             success=success_message,
+                             snowflakes_count=snowflakes_count,
+                             temp_range=temp_range)
+
+    return render_template('fridge.html')
 
 app.run(debug=True)

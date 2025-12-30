@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Холодильник</h1>
+    
+    <form method="POST" class="temperature-form">
+        <div class="form-group">
+            <label for="temperature">Температура (°C):</label>
+            <input type="number" id="temperature" name="temperature" 
+                   placeholder="Введите температуру" 
+                   step="1" 
+                   class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Установить температуру</button>
+    </form>
+
+    {% if error %}
+        <div class="alert alert-danger mt-3">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    {% if success %}
+        <div class="alert alert-success mt-3">
+            <h4>{{ success }}</h4>
+            <div class="snowflakes mt-2">
+                {% for _ in range(snowflakes_count) %}
+                    <span class="snowflake">❄️</span>
+                {% endfor %}
+            </div>
+            <p class="mt-2">Диапазон: {{ temp_range }}</p>
+        </div>
+    {% endif %}
+
+    <div class="info-box mt-4">
+        <h3>Диапазон температур:</h3>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <strong>-12°C до -9°C:</strong> ❄️❄️❄️ (3 снежинки)
+            </li>
+            <li class="list-group-item">
+                <strong>-8°C до -5°C:</strong> ❄️❄️ (2 снежинки)
+            </li>
+            <li class="list-group-item">
+                <strong>-4°C до -1°C:</strong> ❄️ (1 снежинка)
+            </li>
+        </ul>
+    </div>
+</div>
+
+<style>
+    .temperature-form {
+        max-width: 400px;
+        margin: 20px 0;
+    }
+    
+    .form-control {
+        margin: 10px 0;
+        padding: 10px;
+        width: 100%;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+    
+    .snowflake {
+        color: #1e90ff;
+        font-size: 24px;
+        margin: 0 5px;
+    }
+    
+    .snowflakes {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .info-box {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 5px;
+        border: 1px solid #dee2e6;
+    }
+    
+    .alert {
+        padding: 15px;
+        border-radius: 4px;
+        margin: 20px 0;
+        max-width: 500px;
+    }
+    
+    .alert-danger {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+    }
+    
+    .alert-success {
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+        color: #155724;
+    }
+</style>
+{% endblock %}
