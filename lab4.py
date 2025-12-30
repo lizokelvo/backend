@@ -163,3 +163,86 @@ def register():
                          error=error,
                          success=success)
 
+@lab4.route('/lab4/grain', methods=['GET', 'POST'])
+def grain():
+    # Цены на зерно
+    prices = {
+        'barley': 12000,   # ячмень
+        'oat': 8500,       # овёс
+        'wheat': 9000,     # пшеница
+        'rye': 15000       # рожь
+    }
+    
+    # Русские названия зерна
+    grain_names = {
+        'barley': 'ячмень',
+        'oat': 'овёс',
+        'wheat': 'пшеница',
+        'rye': 'рожь'
+    }
+    
+    if request.method == 'POST':
+        grain_type = request.form.get('grain_type')
+        weight_input = request.form.get('weight')
+        
+        # Проверка на пустые значения
+        if not grain_type:
+            return render_template('lab4/grain.html', 
+                                 error='Выберите тип зерна')
+        
+        if not weight_input:
+            return render_template('lab4/grain.html',
+                                 error='Укажите вес заказа',
+                                 grain_type=grain_type)
+        
+        try:
+            weight = float(weight_input)
+        except ValueError:
+            return render_template('lab4/grain.html',
+                                 error='Вес должен быть числом',
+                                 grain_type=grain_type)
+        
+        # Проверка веса
+        if weight <= 0:
+            return render_template('lab4/grain.html',
+                                 error='Вес должен быть больше 0',
+                                 grain_type=grain_type,
+                                 weight=weight_input)
+        
+        # Проверка максимального объема
+        if weight > 100:
+            return render_template('lab4/grain.html',
+                                 error='Такого объёма сейчас нет в наличии (максимум 100 тонн)',
+                                 grain_type=grain_type,
+                                 weight=weight_input)
+        
+        # Расчет стоимости
+        price_per_ton = prices[grain_type]
+        original_price = weight * price_per_ton
+        
+        # Применение скидки
+        discount_applied = False
+        discount_amount = 0
+        
+        if weight > 10:
+            discount_applied = True
+            discount_amount = original_price * 0.1
+            total_price = original_price - discount_amount
+        else:
+            total_price = original_price
+        
+        # Формирование сообщения
+        grain_name = grain_names[grain_type]
+        success_message = 'Заказ успешно сформирован'
+        
+        return render_template('lab4/grain.html',
+                             success=success_message,
+                             grain_name=grain_name,
+                             weight=weight,
+                             total_price=f"{total_price:,.0f}".replace(',', ' '),
+                             discount_applied=discount_applied,
+                             discount_amount=f"{discount_amount:,.0f}".replace(',', ' '),
+                             original_price=f"{original_price:,.0f}".replace(',', ' '),
+                             grain_type=grain_type)
+    
+    return render_template('lab4/grain.html')
