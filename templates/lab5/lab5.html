@@ -22,7 +22,7 @@
 
     <div class="lab5-content">
         <div class="user-info">
-            <strong>Пользователь:</strong> 
+            <strong>Пользователь:</strong>
             {% if session.username %}
                 {{ session.username }}
             {% else %}
@@ -30,38 +30,9 @@
             {% endif %}
         </div>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <div class="flash-messages">
-                    {% for category, message in messages %}
-                        <div class="flash flash-{{ category }}">{{ message }}</div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
-
-        {% block lab5_content %}
-        <div class="lab5-welcome">
-            <h2>База знаний</h2>
-            <p>Добро пожаловать в систему управления знаниями!</p>
-            <p>Здесь вы можете:</p>
-            <ul>
-                <li>Читать статьи других пользователей</li>
-                <li>Создавать свои собственные статьи</li>
-                <li>Регистрироваться и входить в систему</li>
-            </ul>
-            
-            <div class="quick-links">
-                <a href="/lab5/list" class="btn btn-primary">Перейти к статьям</a>
-                <a href="/lab5/create" class="btn btn-secondary">Написать статью</a>
-            </div>
-        </div>
-        {% endblock %}
-    </div>
-
-    <footer class="lab5-footer">
-        <p>Лабораторная работа 5: Система управления знаниями</p>
-    </footer>
+        <footer class="lab5-footer">
+            <p>Лабораторная работа 5: Flask и БД</p>
+        </footer>
 </div>
 
 <style>
@@ -152,62 +123,6 @@
         border: 1px solid #bee5eb;
     }
 
-    .lab5-welcome {
-        text-align: center;
-        padding: 30px;
-        background-color: #f8f9fa;
-        border-radius: 8px;
-    }
-
-    .lab5-welcome h2 {
-        color: #333;
-        margin-bottom: 20px;
-    }
-
-    .lab5-welcome ul {
-        text-align: left;
-        max-width: 400px;
-        margin: 20px auto;
-    }
-
-    .quick-links {
-        margin-top: 30px;
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        flex-wrap: wrap;
-    }
-
-    .btn {
-        padding: 10px 20px;
-        border-radius: 4px;
-        text-decoration: none;
-        font-weight: bold;
-        transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .btn-primary {
-        background-color: #667eea;
-        color: white;
-    }
-
-    .btn-primary:hover {
-        background-color: #5a6fd8;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-
-    .btn-secondary {
-        background-color: #6c757d;
-        color: white;
-    }
-
-    .btn-secondary:hover {
-        background-color: #5a6268;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-
     .lab5-footer {
         margin-top: 30px;
         padding-top: 15px;
@@ -217,26 +132,5 @@
         font-size: 14px;
     }
 
-    /* Адаптивность */
-    @media (max-width: 768px) {
-        .lab5-menu ul {
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .lab5-menu a {
-            width: 200px;
-            text-align: center;
-        }
-        
-        .quick-links {
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .btn {
-            width: 200px;
-        }
-    }
 </style>
 {% endblock %}
