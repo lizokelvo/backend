@@ -5,7 +5,6 @@
 {% block main %}
 <div class="lab5-container">
     <header class="lab5-header">
-        <h1>WEB-программирование, часть 2. Лабораторная работа 5</h1>
         <nav class="lab5-menu">
             <ul>
                 <li><a href="/lab5/list">Список статей</a></li>
@@ -23,8 +22,8 @@
     <div class="lab5-content">
         <div class="user-info">
             <strong>Пользователь:</strong>
-            {% if session.username %}
-                {{ session.username }}
+            {% if session.login %}
+                {{ session.login }}
             {% else %}
                 Anonymous
             {% endif %}
@@ -37,7 +36,7 @@
         <footer class="lab5-footer">
             <p>Лабораторная работа 5: Flask и БД</p>
         </footer>
-</div>
+    </div>
 
 <style>
     .lab5-container {
