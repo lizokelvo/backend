@@ -4,6 +4,13 @@
 
 {% block lab5_content %}
     <h1>Регистрация</h1>
+
+     {% if error %}
+        <div style="color: red; margin-bottom: 15px; padding: 10px; border: 1px solid red; border-radius: 4px; background-color: #ffeeee;">
+            {{ error }}
+        </div>
+    {% endif %}
+    
     <form action="{{ url_for('lab5.register') }}" method="POST">
         <div class="form-group">
             <label>
