@@ -19,29 +19,39 @@ def register():
     login = request.form.get('login')
     password = request.form.get('password')
 
+
     if not login or not password:
         return render_template('lab5/register.html', error='Заполните все')
 
-    conn = psycopg2.connect(
-        host = '127.0.0.1',
-        database = 'yelizaveta_voroshilova_knowledge_base',
-        user = 'yelizaveta_voroshilova_knowledge_base',
-        password = '854625'
-    )
-    cur = conn.cursor()
+    try:
+        conn = psycopg2.connect(
+            host = 'localhost',
+            database = 'yelizaveta_voroshilova_knowledge_base',
+            user = 'yelizaveta_voroshilova_knowledge_base',
+            password = '854625'
+        )
+        cur = conn.cursor()
 
-    cur.execute(f"SELECT login FROM users WHERE login='{login}';")
-    if cur.fetchone():
+        cur.execute("SELECT login FROM users WHERE login = %s;", (login,))
+        existing_user = cur.fetchone()
+        
+        if existing_user:
+            cur.close()
+            conn.close()
+            return render_template('lab5/register.html',
+                                error="Такой пользовательуже существует")
+        
+        cur.execute(
+            "INSERT INTO users (login, password) VALUES (%s, %s);",
+            (login, password)
+        )
+        conn.commit()
         cur.close()
         conn.close()
-        return render_template('lab5/register.html',
-                               error="Такой пользовательуже существует")
+        return render_template('lab5/success.html', login=login)
 
-    cur.execute(f"INSERT INTO users (login, password) VALUES ('{login}', '{password}');")
-    conn.commit()
-    cur.close()
-    conn.close()
-    return render_template('lab5/success.html', login=login)
+    except Exception as e:
+        return render_template('lab5/register.html', error=f"Ошибка: {e}")
 
 @lab5.route('/lab5/list')
 def list_articles():
