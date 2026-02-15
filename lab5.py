@@ -14,7 +14,8 @@ def db_connect():
         host = 'localhost',
         database = 'yelizaveta_voroshilova_knowledge_base',
         user = 'yelizaveta_voroshilova_knowledge_base',
-        password = '854625'
+        password = '854625',
+        client_encoding='UTF8'
     )
     cur = conn.cursor(cursor_factory=RealDictCursor)
 
@@ -89,5 +90,26 @@ def list_articles():
     return render_template('lab5/list.html')
 
 @lab5.route('/lab5/create', methods=['GET', 'POST'])
-def create_article():
-    return render_template('lab5/create.html')
+def create():
+    login=session.get('login')
+    if not login:
+        return redirect('/lab5/login')
+    
+    if request.method == 'GET':
+        return render_template('lab5/create.html')
+    
+    title = request.form.get('title')
+    article_text = request.form.get('article_text')
+    
+    conn, cur = db_connect()
+
+    cur.execute("SELECT id FROM users WHERE login=%s;", (login,))
+    user_id = cur.fetchone()["id"]
+
+    cur.execute(
+        "INSERT INTO articles (user_id, title, article_text, is_favorite, is_public, likes) VALUES (%s, %s, %s, %s, %s, %s);",
+        (user_id, title, article_text, False, True, 0)
+    )
+    
+    db_close(conn, cur)
+    return redirect('/lab5')
