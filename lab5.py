@@ -35,7 +35,7 @@ def login():
     login = request.form.get('login')
     password = request.form.get('password')
 
-    if not (login or password):
+    if not login or not password:
         return render_template('lab5/login.html', error="Заполние поля")
 
     conn, cur = db_connect()
@@ -48,7 +48,7 @@ def login():
         return render_template('lab5/login.html', 
                                error='Логин и/или пароль неверны')
 
-    if not check_password_hash(user['password', password]):
+    if not check_password_hash(user['password'], password):
         db_close(conn, cur)
         return render_template('lab5/login.html', 
                                error='Логин и/или пароль неверны')
@@ -86,8 +86,21 @@ def register():
     return render_template('lab5/success.html', login=login)
 
 @lab5.route('/lab5/list')
-def list_articles():
-    return render_template('lab5/list.html')
+def list():
+    login = session.get('login')
+    if not login:
+        return redirect('/lab5/login')
+    
+    conn, cur = db_connect()
+
+    cur.execute(f"SELECT id FROM users WHERE login='{login}';")
+    user_id = cur.fetchone()["id"]
+
+    cur.execute(f"SELECT * FROM articles WHERE user_id = %s ORDER BY id DESC;", (user_id,))
+    articles = cur.fetchall()
+
+    db_close(conn, cur)
+    return render_template('lab5/articles.html', articles=articles)
 
 @lab5.route('/lab5/create', methods=['GET', 'POST'])
 def create():
