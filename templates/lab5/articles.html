@@ -1,0 +1,22 @@
+{% extends "lab5/lab5.html" %}
+
+{% block lab5_content %}
+<div class="articles-list">
+    <h1>Список статей</h1>
+    
+    {% for article in articles %}
+        <h2>{{ article['title'] }}</h2>
+        <blockquote>{{ article['article_text'] }}</blockquote>
+    {% endfor %}
+
+</div>
+
+<style>
+    .articles-list h1 {
+        color: #333;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+</style>
+
+{% endblock %}
