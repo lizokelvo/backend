@@ -4,19 +4,191 @@
 <div class="articles-list">
     <h1>Список статей</h1>
     
-    {% for article in articles %}
-        <h2>{{ article['title'] }}</h2>
-        <blockquote>{{ article['article_text'] }}</blockquote>
-    {% endfor %}
-
+    {% if articles %}
+        {% for article in articles %}
+        <div class="article-card">
+            <div class="article-header">
+                <h2>{{ article['title'] }}</h2>
+                <div class="article-meta">
+                    <span class="badge {% if article['is_public'] %}public{% else %}private{% endif %}">
+                        {% if article['is_public'] %}Публичная{% else %}Приватная{% endif %}
+                    </span>
+                    {% if article['is_favorite'] %}
+                    <span class="badge favorite">Избранное</span>
+                    {% endif %}
+                    <span class="badge likes">{{ article['likes'] }}</span>
+                </div>
+            </div>
+            
+            <div class="article-content">
+                <blockquote>{{ article['article_text'] }}</blockquote>
+            </div>
+            
+            <div class="article-actions">
+                <a href="{{ url_for('lab5.edit', article_id=article['id']) }}" class="btn btn-edit">Редактировать</a>
+                <form action="{{ url_for('lab5.delete', article_id=article['id']) }}" method="POST" style="display: inline;" onsubmit="return confirm('Вы уверены, что хотите удалить эту статью?');">
+                    <button type="submit" class="btn btn-delete">Удалить</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-articles">
+            <p>У вас пока нет ни одной статьи.</p>
+            <a href="{{ url_for('lab5.create') }}" class="btn btn-primary">Создать первую статью</a>
+        </div>
+    {% endif %}
+    
+    <div class="navigation">
+        <a href="{{ url_for('lab5.create') }}" class="btn btn-primary">Создать новую статью</a>
+    </div>
 </div>
 
 <style>
+    .articles-list {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
     .articles-list h1 {
         color: #333;
         margin-bottom: 30px;
         text-align: center;
     }
+    
+    .article-card {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .article-header {
+        border-bottom: 1px solid #dee2e6;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
+    
+    .article-header h2 {
+        margin: 0 0 10px 0;
+        color: #333;
+    }
+    
+    .article-meta {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    
+    .badge {
+        padding: 3px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    
+    .public {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    
+    .private {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeeba;
+    }
+    
+    .favorite {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeeba;
+    }
+    
+    .likes {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+    
+    .article-content {
+        margin-bottom: 15px;
+    }
+    
+    .article-content blockquote {
+        margin: 0;
+        padding: 10px;
+        background-color: #e9ecef;
+        border-left: 4px solid #007bff;
+        font-style: italic;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+    
+    .article-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+    
+    .btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+    
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+    
+    .btn-edit {
+        background-color: #28a745;
+        color: white;
+    }
+    
+    .btn-edit:hover {
+        background-color: #1e7e34;
+    }
+    
+    .btn-delete {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+    }
+    
+    .btn-delete:hover {
+        background-color: #c82333;
+    }
+    
+    .no-articles {
+        text-align: center;
+        padding: 50px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    
+    .no-articles p {
+        font-size: 18px;
+        color: #666;
+        margin-bottom: 20px;
+    }
+    
+    .navigation {
+        text-align: center;
+        margin-top: 20px;
+    }
 </style>
-
 {% endblock %}
