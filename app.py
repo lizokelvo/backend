@@ -4,6 +4,10 @@ from lab2 import lab2
 from lab3 import lab3
 from lab4 import lab4
 from lab5 import lab5
+from lab5 import lab6
+from lab5 import lab7
+from lab5 import lab8
+from lab5 import lab9
 import datetime
 
 app = Flask(__name__)
@@ -12,6 +16,10 @@ app.register_blueprint(lab2)
 app.register_blueprint(lab3)
 app.register_blueprint(lab4)
 app.register_blueprint(lab5)
+app.register_blueprint(lab6)
+app.register_blueprint(lab7)
+app.register_blueprint(lab8)
+app.register_blueprint(lab9)
 
 app.secret_key = 'my_secret_key_254685'
 
