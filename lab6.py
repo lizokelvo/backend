@@ -4,7 +4,7 @@ lab6 = Blueprint('lab6', __name__)
 
 offices = []
 for i in range(1, 11):
-    offices.append({'number': i, 'tenant': ''})
+    offices.append({"number": i, "tenant": "", "price": 900 + i * 3})
 
 @lab6.route('/lab6/')
 def main():
@@ -57,7 +57,6 @@ def api():
         office_number = data['params']
         for office in offices:
             if office['number'] == office_number:
-                # Проверка: офис арендован
                 if office['tenant'] == '':
                     return {
                         'jsonrpc': '2.0',
@@ -67,7 +66,6 @@ def api():
                         },
                         'id': id
                     }
-                # Проверка: офис арендован именно этим пользователем
                 if office['tenant'] != login:
                     return {
                         'jsonrpc': '2.0',
@@ -77,7 +75,6 @@ def api():
                         },
                         'id': id
                     }
-                # Снимаем аренду
                 office['tenant'] = ''
                 return {
                     'jsonrpc': '2.0',
