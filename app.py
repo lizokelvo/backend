@@ -302,12 +302,9 @@ def refrigerator():
 
 @app.route('/lab6/login')
 def lab6_login():
-    session['login'] = 'test_user'
-    return 'Вы авторизованы как test_user. <a href="/lab6/">Вернуться к лабораторной</a>'
+    return redirect(url_for('lab5.login'))
 
 @app.route('/lab6/logout')
 def lab6_logout():
-    session.pop('login', None)
-    return 'Вы вышли из системы. <a href="/lab6/">Вернуться к лабораторной</a>'
-
+    return redirect(url_for('lab5.logout'))
 app.run(debug=True)
