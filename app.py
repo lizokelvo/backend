@@ -1,13 +1,13 @@
-from flask import Flask, url_for, redirect, abort, render_template  # type: ignore
+from flask import Flask, url_for, redirect, abort, render_template, session  # type: ignore
 from lab1 import lab1
 from lab2 import lab2
 from lab3 import lab3
 from lab4 import lab4
 from lab5 import lab5
-from lab5 import lab6
-from lab5 import lab7
-from lab5 import lab8
-from lab5 import lab9
+from lab6 import lab6
+from lab7 import lab7
+from lab8 import lab8
+from lab9 import lab9
 import datetime
 
 app = Flask(__name__)
@@ -299,5 +299,15 @@ def refrigerator():
                              temp_range=temp_range)
 
     return render_template('fridge.html')
+
+@app.route('/lab6/login')
+def lab6_login():
+    session['login'] = 'test_user'
+    return 'Вы авторизованы как test_user. <a href="/lab6/">Вернуться к лабораторной</a>'
+
+@app.route('/lab6/logout')
+def lab6_logout():
+    session.pop('login', None)
+    return 'Вы вышли из системы. <a href="/lab6/">Вернуться к лабораторной</a>'
 
 app.run(debug=True)
