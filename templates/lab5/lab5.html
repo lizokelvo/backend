@@ -5,12 +5,14 @@
 {% block main %}
 <div class="lab5-container">
     <header class="lab5-header">
+        <h1>База знаний</h1>
         <nav class="lab5-menu">
             <ul>
+                <li><a href="/lab5/">Главная</a></li>
                 <li><a href="/lab5/list">Список статей</a></li>
                 <li><a href="/lab5/create">Создать статью</a></li>
-                {% if session.username %}
-                    <li><a href="/lab5/logout">Выйти ({{ session.username }})</a></li>
+                {% if session.login %}
+                    <li><a href="/lab5/logout" class="logout-btn">Выйти ({{ session.login }})</a></li>
                 {% else %}
                     <li><a href="/lab5/login">Войти</a></li>
                     <li><a href="/lab5/register">Регистрация</a></li>
@@ -23,20 +25,19 @@
         <div class="user-info">
             <strong>Пользователь:</strong>
             {% if session.login %}
-                {{ session.login }}
+                <span class="username">{{ session.login }}</span>
             {% else %}
-                Anonymous
+                <span class="anonymous">Anonymous</span>
             {% endif %}
         </div>
 
-        {% block lab5_content %}
-        
-        {% endblock %}
+        {% block lab5_content %}{% endblock %}
 
         <footer class="lab5-footer">
             <p>Лабораторная работа 5: Flask и БД</p>
         </footer>
     </div>
+</div>
 
 <style>
     .lab5-container {
@@ -86,6 +87,14 @@
         text-decoration: none;
     }
 
+    .logout-btn {
+        background: rgba(255, 99, 71, 0.3) !important;
+    }
+
+    .logout-btn:hover {
+        background: rgba(255, 99, 71, 0.5) !important;
+    }
+
     .lab5-content {
         padding: 20px;
     }
@@ -98,6 +107,16 @@
         border-left: 4px solid #667eea;
     }
 
+    .username {
+        font-weight: bold;
+        color: #28a745;
+    }
+
+    .anonymous {
+        font-style: italic;
+        color: #6c757d;
+    }
+
     .lab5-footer {
         margin-top: 30px;
         padding-top: 15px;
@@ -106,6 +125,5 @@
         color: #6c757d;
         font-size: 14px;
     }
-
 </style>
 {% endblock %}
