@@ -6,11 +6,13 @@ from lab4 import lab4
 from lab5 import lab5
 from lab6 import lab6
 from lab7 import lab7
-from lab8 import lab8
-from lab9 import lab9
+#from lab8 import lab8
+#from lab9 import lab9
 import datetime
+import os
 
 app = Flask(__name__)
+
 app.register_blueprint(lab1)
 app.register_blueprint(lab2)
 app.register_blueprint(lab3)
@@ -18,14 +20,11 @@ app.register_blueprint(lab4)
 app.register_blueprint(lab5)
 app.register_blueprint(lab6)
 app.register_blueprint(lab7)
-app.register_blueprint(lab8)
-app.register_blueprint(lab9)
+#app.register_blueprint(lab8)
+#app.register_blueprint(lab9)
 
-app.secret_key = 'my_secret_key_254685'
-
-#@app.route("/")
-#def hello():
-#    return "Flask работает! Главная страница"
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'my_secret_key_147852369')
+app.config['DB_TYPE'] = os.getenv('DB_TYPE', 'postgres')
 
 
 @app.errorhandler(404)
@@ -307,4 +306,6 @@ def lab6_login():
 @app.route('/lab6/logout')
 def lab6_logout():
     return redirect(url_for('lab5.logout'))
-app.run(debug=True)
+
+if __name__ == '__main__':
+    app.run(debug=True)
