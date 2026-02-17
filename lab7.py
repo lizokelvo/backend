@@ -1,10 +1,10 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, jsonify  
 
 lab7 = Blueprint('lab7', __name__)
 
 @lab7.route('/lab7/')
 def main():
-    return render_template('lab7/index.html')
+    return render_template('lab7/lab7.html')
 
 films = [
     {
@@ -66,11 +66,17 @@ films = [
 
 @lab7.route('/lab7/rest-api/films/', methods=['GET'])
 def get_films():
-    return films
+    return jsonify(films)
 
-@lab7.route('/lab7/rest-api/films/<int:id>', methods=['GET'])
-def get_film(id):
+
+@lab7.route('/lab7/rest-api/films/<int:id>', methods=['GET', 'DELETE'])
+def handle_film(id):
     if id < 0 or id >= len(films):
-        return {"error": "Film not found"}, 404
+        return jsonify({"error": "Film not found"}), 404
     
-    return films[id]
+    if request.method == 'GET':
+        return jsonify(films[id])
+    
+    elif request.method == 'DELETE':
+        del films[id]
+        return '', 204
