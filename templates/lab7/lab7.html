@@ -3,7 +3,41 @@
 {% block lab %}Лабораторная работа 7{% endblock %}
 
 {% block script %}
+    <script>
+        fetch('/lab7/rest-api/films/')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Сеть ответила с ошибкой');
+                }
+                return response.json();
+            })
+            .then(films => {
+                const filmsList = document.getElementById('films-list');
+                films.forEach(film => {
+                    const filmCard = document.createElement('div');
+                    filmCard.style.border = '1px solid #ccc';
+                    filmCard.style.margin = '10px';
+                    filmCard.style.padding = '10px';
+                    filmCard.style.borderRadius = '5px';
+                    
+                    filmCard.innerHTML = `
+                        <h3>${film.title_ru} (${film.year})</h3>
+                        <p><i>Оригинальное название: ${film.title}</i></p>
+                        <p>${film.description}</p>
+                    `;
+                    filmsList.appendChild(filmCard);
+                });
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                document.getElementById('films-list').innerHTML = 
+                    '<p style="color: red">Ошибка загрузки фильмов</p>';
+            });
+    </script>
 {% endblock %}
 
 {% block main %}
+    <h1>База данных фильмов</h1>
+    
+    <div id="films-list"></div>
 {% endblock %}
