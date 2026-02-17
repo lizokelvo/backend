@@ -83,27 +83,46 @@ function sendFilm() {
 
     fetch(url, {
         method: method,
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(film)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Успешно:', data);
-        hideModal();
-        fillFilmList();
-    })
-    .catch(error => console.error('Ошибка:', error));
+    }).then(function(resp) {
+        if (resp.ok) {
+            fillFilmList();
+            hideModal();
+        } else {
+            resp.json().then(errorData => {
+                const errorDiv = document.getElementById('error-message');
+                if (errorDiv) {
+                    if (errorData.description) {
+                        errorDiv.innerHTML = errorData.description;
+                    } else if (errorData.error) {
+                        errorDiv.innerHTML = errorData.error;
+                    } else {
+                        errorDiv.innerHTML = 'Произошла ошибка';
+                    }
+                }
+                console.error('Ошибка сервера:', errorData);
+            });
+        }
+    }).catch(error => {
+        console.error('Ошибка сети:', error);
+        const errorDiv = document.getElementById('error-message');
+        if (errorDiv) {
+            errorDiv.innerHTML = 'Ошибка соединения с сервером';
+        }
+    });
 }
 
 function showModal() {
-
+    const errorDiv = document.getElementById('error-message');
+    if (errorDiv) {
+        errorDiv.innerHTML = '';
+    }
+    
     document.getElementById('modal').style.display = 'block';
 }
 
 function hideModal() {
-
     document.getElementById('modal').style.display = 'none';
 
     document.getElementById('id').value = '';
@@ -111,6 +130,12 @@ function hideModal() {
     document.getElementById('title_ru').value = '';
     document.getElementById('year').value = '';
     document.getElementById('description').value = '';
+    
+    const errorDiv = document.getElementById('error-message');
+    if (errorDiv) {
+        errorDiv.innerHTML = '';
+    }
 }
+
 
 document.addEventListener('DOMContentLoaded', fillFilmList);
