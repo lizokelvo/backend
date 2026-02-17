@@ -11,22 +11,34 @@ function fillFilmList() {
             let tr = document.createElement('tr');
 
             let tdTitle = document.createElement('td');
-            let tdTitleRus = document.createElement('td');
+            let titleRu = document.createElement('span');
+            titleRu.className = 'title-ru';
+            titleRu.innerText = films[i].title_ru;
+            
+            tdTitle.appendChild(titleRu);
+     
+            if (films[i].title && films[i].title !== films[i].title_ru) {
+                let titleOriginal = document.createElement('span');
+                titleOriginal.className = 'title-original';
+                titleOriginal.innerText = films[i].title;
+                tdTitle.appendChild(titleOriginal);
+            }
+            
             let tdYear = document.createElement('td');
+            tdYear.innerText = films[i].year;
+            
             let tdActions = document.createElement('td');
 
-            tdTitle.innerText = films[i].title == films[i].title_ru ? '' : films[i].title;
-            tdTitleRus.innerText = films[i].title_ru;
-            tdYear.innerText = films[i].year;
-
             let editButton = document.createElement('button'); 
-            editButton.innerText = 'Редактировать';
+            editButton.className = 'btn btn-edit';
+            editButton.innerText = '✏ Редактировать';
             editButton.onclick = function() {
                 editFilm(i);
             };
 
             let deleteButton = document.createElement('button');
-            deleteButton.innerText = 'Удалить';
+            deleteButton.className = 'btn btn-delete';
+            deleteButton.innerText = '🗑 Удалить';
             deleteButton.onclick = function() {
                 deleteFilm(i, films[i].title_ru);
             };
@@ -35,7 +47,6 @@ function fillFilmList() {
             tdActions.appendChild(deleteButton);
 
             tr.appendChild(tdTitle);
-            tr.appendChild(tdTitleRus);
             tr.appendChild(tdYear);
             tr.appendChild(tdActions);
 
@@ -55,18 +66,38 @@ function deleteFilm(id, title) {
 }
 
 function editFilm(id) {
+    document.getElementById('modal-title').innerText = 'Редактирование фильма';
+    
     fetch(`/lab7/rest-api/films/${id}`)
         .then(function (data) {
             return data.json();
         })
         .then(function (film) {
             document.getElementById('id').value = id;
-            document.getElementById('title').value = film.title;
-            document.getElementById('title_ru').value = film.title_ru;
-            document.getElementById('year').value = film.year;
-            document.getElementById('description').value = film.description;
+            document.getElementById('title').value = film.title || '';
+            document.getElementById('title_ru').value = film.title_ru || '';
+            document.getElementById('year').value = film.year || '';
+            document.getElementById('description').value = film.description || '';
             showModal();
         });
+}
+
+function addFilm() {
+    document.getElementById('modal-title').innerText = 'Добавление фильма';
+    
+  
+    document.getElementById('id').value = '';
+    document.getElementById('title').value = '';
+    document.getElementById('title_ru').value = '';
+    document.getElementById('year').value = '';
+    document.getElementById('description').value = '';
+    
+    const errorDiv = document.getElementById('error-message');
+    if (errorDiv) {
+        errorDiv.innerHTML = '';
+    }
+    
+    showModal();
 }
 
 function sendFilm() {
@@ -77,6 +108,10 @@ function sendFilm() {
         year: parseInt(document.getElementById('year').value),
         description: document.getElementById('description').value
     };
+
+    if (!film.title && film.title_ru) {
+        console.log('Оригинальное название не указано, будет использовано русское');
+    }
 
     const url = id === '' ? '/lab7/rest-api/films/' : `/lab7/rest-api/films/${id}`;
     const method = id === '' ? 'POST' : 'PUT';
@@ -93,13 +128,7 @@ function sendFilm() {
             resp.json().then(errorData => {
                 const errorDiv = document.getElementById('error-message');
                 if (errorDiv) {
-                    if (errorData.description) {
-                        errorDiv.innerHTML = errorData.description;
-                    } else if (errorData.error) {
-                        errorDiv.innerHTML = errorData.error;
-                    } else {
-                        errorDiv.innerHTML = 'Произошла ошибка';
-                    }
+                    errorDiv.innerHTML = errorData.description || errorData.error || 'Произошла ошибка';
                 }
                 console.error('Ошибка сервера:', errorData);
             });
@@ -120,10 +149,12 @@ function showModal() {
     }
     
     document.getElementById('modal').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
 }
 
 function hideModal() {
     document.getElementById('modal').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
 
     document.getElementById('id').value = '';
     document.getElementById('title').value = '';
@@ -136,6 +167,5 @@ function hideModal() {
         errorDiv.innerHTML = '';
     }
 }
-
 
 document.addEventListener('DOMContentLoaded', fillFilmList);
