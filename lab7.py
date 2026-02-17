@@ -86,3 +86,24 @@ def put_film(id):
     film = request.get_json()
     films[id] = film
     return films[id]
+
+@lab7.route('/lab7/rest-api/films/', methods=['POST'])
+def add_films():
+    new_film = request.get_json()
+    
+    if not new_film:
+        return jsonify({"error": "No data provided"}), 400
+    
+    required_fields = ['title', 'title_ru', 'year', 'description']
+    for field in required_fields:
+        if field not in new_film:
+            return jsonify({"error": f"Missing required field: {field}"}), 400
+   
+    films.append(new_film)
+    
+    new_index = len(films) - 1
+    return jsonify({
+        "message": "Film added successfully",
+        "id": new_index,
+        "film": films[new_index]
+    }), 201 
