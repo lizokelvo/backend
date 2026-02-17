@@ -80,3 +80,9 @@ def handle_film(id):
     elif request.method == 'DELETE':
         del films[id]
         return '', 204
+    
+@lab7.route('/lab7/rest-api/films/<int:id>', methods=['PUT'])
+def put_film(id):
+    film = request.get_json()
+    films[id] = film
+    return films[id]
