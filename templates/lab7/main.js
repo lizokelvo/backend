@@ -3,10 +3,11 @@ function fillFilmList() {
     .then(function (data) {
         return data.json();
     })
-    .then(function (films){
+    .then(function (films) {
         let tbody = document.getElementById('film-list');
         tbody.innerHTML = '';
-        for(let i = 0; i<films.length; i++) {
+        
+        for (let i = 0; i < films.length; i++) {
             let tr = document.createElement('tr');
 
             let tdTitle = document.createElement('td');
@@ -14,12 +15,15 @@ function fillFilmList() {
             let tdYear = document.createElement('td');
             let tdActions = document.createElement('td');
 
-            tdTitle.innerText = films[i].title == films[i].title_ru ? '': films[i].title;
+            tdTitle.innerText = films[i].title == films[i].title_ru ? '' : films[i].title;
             tdTitleRus.innerText = films[i].title_ru;
             tdYear.innerText = films[i].year;
 
             let editButton = document.createElement('button'); 
             editButton.innerText = 'Редактировать';
+            editButton.onclick = function() {
+                editFilm(i);
+            };
 
             let deleteButton = document.createElement('button');
             deleteButton.innerText = 'Удалить';
@@ -27,29 +31,86 @@ function fillFilmList() {
                 deleteFilm(i, films[i].title_ru);
             };
 
-            function fillFilmList() {
-
-            }
-
-            function deleteFilm(id, title) {
-                if(! confirm('Вы точно хотите удалить фильм "${title}"?'))
-                    return;
-
-                fetch('/lab7/rest-api/films/${id}', {method: 'DELETE'})
-                    .then(function () {
-                        fillFilmList();
-                    });
-            }
-
             tdActions.appendChild(editButton);
             tdActions.appendChild(deleteButton);
 
-            tr.append(tdTitle);
-            tr.append(tdTitleRus);
-            tr.append(tdYear);
-            tr.append(tdActions);
+            tr.appendChild(tdTitle);
+            tr.appendChild(tdTitleRus);
+            tr.appendChild(tdYear);
+            tr.appendChild(tdActions);
 
-            tbody.append(tr);
+            tbody.appendChild(tr);
         }
-    })
+    });
 }
+
+function deleteFilm(id, title) {
+    if (!confirm('Вы точно хотите удалить фильм "' + title + '"?'))
+        return;
+
+    fetch(`/lab7/rest-api/films/${id}`, {method: 'DELETE'})
+        .then(function () {
+            fillFilmList();
+        });
+}
+
+function editFilm(id) {
+    fetch(`/lab7/rest-api/films/${id}`)
+        .then(function (data) {
+            return data.json();
+        })
+        .then(function (film) {
+            document.getElementById('id').value = id;
+            document.getElementById('title').value = film.title;
+            document.getElementById('title_ru').value = film.title_ru;
+            document.getElementById('year').value = film.year;
+            document.getElementById('description').value = film.description;
+            showModal();
+        });
+}
+
+function sendFilm() {
+    const id = document.getElementById('id').value;
+    const film = {
+        title: document.getElementById('title').value,
+        title_ru: document.getElementById('title_ru').value,
+        year: parseInt(document.getElementById('year').value),
+        description: document.getElementById('description').value
+    };
+
+    const url = id === '' ? '/lab7/rest-api/films/' : `/lab7/rest-api/films/${id}`;
+    const method = id === '' ? 'POST' : 'PUT';
+
+    fetch(url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(film)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Успешно:', data);
+        hideModal();
+        fillFilmList();
+    })
+    .catch(error => console.error('Ошибка:', error));
+}
+
+function showModal() {
+
+    document.getElementById('modal').style.display = 'block';
+}
+
+function hideModal() {
+
+    document.getElementById('modal').style.display = 'none';
+
+    document.getElementById('id').value = '';
+    document.getElementById('title').value = '';
+    document.getElementById('title_ru').value = '';
+    document.getElementById('year').value = '';
+    document.getElementById('description').value = '';
+}
+
+document.addEventListener('DOMContentLoaded', fillFilmList);
