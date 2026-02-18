@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 9{% endblock %}
+
+{% block script %}
+<script>
+    // Функция для создания снежинок
+    function createSnowflake() {
+        const snowflake = document.createElement('div');
+        snowflake.classList.add('snowflake');
+        snowflake.innerHTML = '❄️';
+        snowflake.style.left = Math.random() * 100 + '%';
+        snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+        snowflake.style.fontSize = Math.random() * 20 + 10 + 'px';
+        snowflake.style.opacity = Math.random();
+        document.body.appendChild(snowflake);
+
+        setTimeout(() => {
+            snowflake.remove();
+        }, 5000);
+    }
+
+    // Создаем снежинки каждые 300мс
+    setInterval(createSnowflake, 300);
+</script>
+{% endblock %}
+
+{% block main %}
+<style>
+    body {
+        background: linear-gradient(to bottom, #0b3d2c, #1a5c45);
+        font-family: 'Arial', sans-serif;
+        color: white;
+        margin: 0;
+        padding: 20px;
+        text-align: center;
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+    }
+
+    .header {
+        background-color: #c62828;
+        padding: 30px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        border: 2px solid #ffd700;
+    }
+
+    .header h1 {
+        font-size: 48px;
+        margin: 0 0 10px 0;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .header p {
+        font-size: 20px;
+        margin: 0;
+        color: #ffd700;
+    }
+
+    .counter {
+        font-size: 24px;
+        margin: 20px auto;
+        padding: 15px 30px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 50px;
+        display: inline-block;
+        border: 2px solid #ffd700;
+        backdrop-filter: blur(5px);
+    }
+
+    .gift-container {
+        position: relative;
+        min-height: 500px;
+        margin: 20px auto;
+        max-width: 800px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        padding: 20px;
+    }
+
+    .gift-box {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        cursor: pointer;
+        transition: transform 0.3s, opacity 0.3s;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="80" height="80" x="10" y="10" fill="%23c62828" rx="10"/><rect width="60" height="20" x="20" y="0" fill="%23ffd700" rx="5"/><rect width="20" height="60" x="40" y="20" fill="%23ffd700" rx="5"/><circle cx="50" cy="30" r="5" fill="%23ffffff"/></svg>');
+        background-size: cover;
+        filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
+    }
+
+    .gift-box:hover {
+        transform: scale(1.1) translateY(-5px);
+        filter: drop-shadow(0 10px 20px rgba(255,215,0,0.3));
+    }
+
+    .gift-box.opened {
+        opacity: 0.5;
+        cursor: default;
+        filter: grayscale(0.5);
+    }
+
+    .gift-box.opened:hover {
+        transform: none;
+    }
+
+    .snowflake {
+        position: fixed;
+        top: -10px;
+        color: white;
+        font-size: 1em;
+        pointer-events: none;
+        z-index: 999;
+        animation: fall linear forwards;
+        user-select: none;
+    }
+
+    @keyframes fall {
+        to {
+            transform: translateY(100vh);
+        }
+    }
+
+    .message {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        color: #333;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        z-index: 1000;
+        max-width: 400px;
+        text-align: center;
+        border: 3px solid #ffd700;
+        display: none;
+    }
+
+    .message.show {
+        display: block;
+        animation: pop 0.3s ease-out;
+    }
+
+    @keyframes pop {
+        0% { transform: translate(-50%, -50%) scale(0); }
+        80% { transform: translate(-50%, -50%) scale(1.1); }
+        100% { transform: translate(-50%, -50%) scale(1); }
+    }
+
+    .message button {
+        margin-top: 20px;
+        padding: 10px 30px;
+        background: #c62828;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .message button:hover {
+        background: #b71c1c;
+    }
+
+    .remaining {
+        font-weight: bold;
+        color: #ffd700;
+        font-size: 32px;
+    }
+</style>
+
+<div class="header">
+    <h1>🎄 С Новым Годом! 🎄</h1>
+    <p>Откройте до 3 подарков! Удачи!</p>
+</div>
+
+<div class="counter">
+    Осталось попыток: <span id="remainingCount" class="remaining">3</span>
+</div>
+
+<div class="gift-container" id="giftContainer"></div>
+
+<div class="message" id="message">
+    <h2 id="messageTitle">🎁 Поздравление!</h2>
+    <p id="messageText"></p>
+    <button onclick="closeMessage()">ОК</button>
+</div>
+
+<script>
+    let remainingAttempts = 3;
+    const giftContainer = document.getElementById('giftContainer');
+    const remainingSpan = document.getElementById('remainingCount');
+    const messageDiv = document.getElementById('message');
+    const messageText = document.getElementById('messageText');
+    const messageTitle = document.getElementById('messageTitle');
+
+    // Поздравления для каждого подарка
+    const greetings = [
+        "Счастья, здоровья и удачи в новом году!",
+        "Пусть исполняются самые заветные мечты!",
+        "Море улыбок, тепла и позитива!",
+        "Успехов во всех начинаниях!",
+        "Ярких впечатлений и незабываемых моментов!",
+        "Пусть дом будет полной чашей!",
+        "Тепла, уюта и гармонии!",
+        "Новых побед и достижений!",
+        "Любви, радости и вдохновения!",
+        "Пусть всё задуманное сбудется!"
+    ];
+
+    // Создание подарков со случайными позициями
+    for (let i = 0; i < 10; i++) {
+        const gift = document.createElement('div');
+        gift.className = 'gift-box';
+        gift.dataset.index = i;
+        gift.dataset.opened = 'false';
+        
+        // Случайные позиции
+        const left = Math.random() * 80 + 5; // 5% - 85%
+        const top = Math.random() * 70 + 5;  // 5% - 75%
+        
+        gift.style.left = left + '%';
+        gift.style.top = top + '%';
+        
+        gift.onclick = function() {
+            if (this.dataset.opened === 'true') return;
+            
+            if (remainingAttempts <= 0) {
+                alert('Вы уже открыли все подарки!');
+                return;
+            }
+            
+            remainingAttempts--;
+            remainingSpan.textContent = remainingAttempts;
+            
+            this.dataset.opened = 'true';
+            this.classList.add('opened');
+            
+            // Показываем поздравление
+            const index = parseInt(this.dataset.index);
+            messageText.textContent = greetings[index % greetings.length];
+            messageDiv.classList.add('show');
+        };
+        
+        giftContainer.appendChild(gift);
+    }
+
+    function closeMessage() {
+        messageDiv.classList.remove('show');
+    }
+
+    // Проверка, все ли подарки открыты
+    function checkAllOpened() {
+        const gifts = document.querySelectorAll('.gift-box');
+        let opened = 0;
+        gifts.forEach(gift => {
+            if (gift.dataset.opened === 'true') opened++;
+        });
+        if (opened === 10) {
+            setTimeout(() => {
+                alert('🎉 Поздравляем! Вы открыли все подарки! С Новым Годом! 🎉');
+            }, 500);
+        }
+    }
+
+    // Добавляем проверку после каждого открытия
+    const originalGiftClick = document.querySelector('.gift-box')?.onclick;
+</script>
+{% endblock %}
