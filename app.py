@@ -10,6 +10,8 @@ from lab8 import lab8
 #from lab9 import lab9
 import datetime
 import os
+from flask_sqlalchemy import SQLAlchemy
+from db import db
 
 app = Flask(__name__)
 
@@ -26,6 +28,31 @@ app.register_blueprint(lab8)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'my_secret_key_147852369')
 app.config['DB_TYPE'] = os.getenv('DB_TYPE', 'postgres')
 
+db_name = 'yelizaveta_voroshilova_knowledge_base'
+db_user = 'yelizaveta_voroshilova_knowledge_base'
+db_password = '854625'
+host_ip = '127.0.0.1'
+host_port = 5432
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{db_user}:{db_password}@{host_ip}:{host_port}/{db_name}'
+
+from os import path
+
+if app.config['DB_TYPE'] == 'postgres':
+    db_name = 'yelizaveta_voroshilova_knowledge_base'
+    db_user = 'yelizaveta_voroshilova_knowledge_base'
+    db_password = '854625'
+    host_ip = '127.0.0.1'
+    host_port = 5432
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{db_user}:{db_password}@{host_ip}:{host_port}/{db_name}'
+
+else:
+    dir_path = path.dirname(path.realpath(__file__))
+    db_path = path.join(dir_path, "database.db")
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+
+db.init_app(app)
 
 @app.errorhandler(404)
 def not_found(err):
@@ -257,7 +284,6 @@ def refrigerator():
     if request.method == 'POST': # type: ignore
         temp_input = request.form.get('temperature') # type: ignore
 
-        # Проверка на пустое значение
         if not temp_input:
             return render_template('fridge.html',
                                  error='Ошибка: не задана температура')
@@ -268,7 +294,6 @@ def refrigerator():
             return render_template('fridge.html',
                                  error='Ошибка: введите числовое значение')
 
-        # Проверка диапазонов
         if temperature < -12:
             return render_template('fridge.html',
                                  error='Не удалось установить температуру — слишком низкое значение')
@@ -276,7 +301,6 @@ def refrigerator():
             return render_template('fridge.html',
                                  error='Не удалось установить температуру — слишком высокое значение')
 
-        # Успешные диапазоны
         success_message = f'Установлена температура: {temperature}°C'
 
         if -12 <= temperature <= -9:
