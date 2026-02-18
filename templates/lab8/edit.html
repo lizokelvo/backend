@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 8 - Редактирование статьи{% endblock %}
+
+{% block main %}
+<div class="edit-form">
+    <h1>Редактирование статьи</h1>
+    
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% endif %}
+    
+    <form action="/lab8/edit/{{ article.id }}" method="post">
+        <div>
+            <label>
+                Название: <input type="text" name="title" value="{{ article.title }}" required>
+            </label>
+        </div>
+        <div>
+            <label>
+                Текст статьи: <textarea name="article_text" rows="10" required>{{ article.article_text }}</textarea>
+            </label>
+        </div>
+        <button type="submit">Сохранить</button>
+        <a href="/lab8/articles" class="cancel">Отмена</a>
+    </form>
+</div>
